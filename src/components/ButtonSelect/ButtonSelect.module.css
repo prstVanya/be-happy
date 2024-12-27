@@ -1,0 +1,21 @@
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+  width: 100%;
+  margin: 0;
+  background-color: var(--bg-purple);
+  color: var(--text-color-premium);
+  font-size: 16px;
+  line-height: 19px;
+  border: none;
+  border-radius: 30px;
+  font-family: var(--font-inter-regular);
+  grid-column: 8 / 13;
+}
+
+.button.light {
+  background-color: var(--text-color-light);
+  color: var(--text-color-dark);
+}

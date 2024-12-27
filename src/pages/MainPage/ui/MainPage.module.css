@@ -1,0 +1,11 @@
+.main {
+  margin: 0;
+  position: relative;
+}
+
+.nav {
+  bottom: 10%;
+  left: 50%;
+  position: fixed;
+  transform: translateX(-50%);
+}

@@ -1,0 +1,18 @@
+@import url('./fonts.css');
+
+:root {
+  --font-inter-light: 'Inter-Light', 'Arial', sans-serif;
+  --font-inter-regular: 'Inter-Regular', 'Arial', sans-serif;
+  --font-inter-medium: 'Inter-Medium', 'Arial', sans-serif;
+  --font-inter-bold: 'Inter-Bold', 'Arial', sans-serif;
+  --bg-premium: #0E0F0F;
+  --bg-secondary: #212223;
+  --bg-purple: #832CF2;
+  --bg-ligth: rgb(240 240 240);
+  --text-color-green: #52FF00;
+  --text-color-light: rgb(215 242 44);
+  --text-color-dark: rgb(0 0 0);
+  --text-color-red: #F00;
+  --text-color-premium: #FFF;
+  --text-color-secondary: #6B6B6B;
+}

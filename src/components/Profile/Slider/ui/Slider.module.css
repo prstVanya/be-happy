@@ -1,0 +1,91 @@
+.slider {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  width: 92.307%;
+  margin: 10px auto 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  gap: 18px;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 15px;
+}
+
+.card {
+  position: relative;
+  flex: 1 0 100%;
+  width: 100%;
+  height: 235px;
+  border-radius: 15px;
+}
+
+.imageWrap {
+  width: 100%;
+  height: 0;
+  position: relative;
+}
+
+.image {
+  position: absolute;
+  object-position: center;
+  inset: 0;
+  width: 100%;
+  display: block;
+  border-radius: 15px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.button {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.icon {
+  object-fit: cover;
+  object-position: center;
+  width: 40px;
+  height: 40px;
+}
+
+.infoIcon {
+  width: 25px;
+  height: 25px;
+}
+
+.info {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.text {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  line-height: 19px;
+  font-family: var(--font-inter-light);
+  color: var(--text-color-secondary);
+}

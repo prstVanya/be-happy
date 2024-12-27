@@ -1,0 +1,47 @@
+.promo {
+  width: 100%;
+  margin: 0;
+}
+
+.container {
+  width: 92.307%;
+  margin: 18px auto 0;
+  display: flex;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  gap: 5px;
+  max-height: 50px;
+  align-items: center;
+  background-color: var(--bg-secondary);
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  grid-column: 1 / 8;
+  max-height: 40px;
+  position: relative;
+  margin: 0;
+}
+
+.input {
+  margin: 0;
+  width: 100%;
+  font-size: 16px;
+  line-height: 19px;
+  font-family: var(--font-inter-regular);
+  color: var(--text-color-secondary);
+  border-radius: 38px;
+  border: none;
+  background-color: var(--bg-ligth);
+  padding: 9px 20px;
+}
+

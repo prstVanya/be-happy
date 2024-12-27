@@ -1,0 +1,24 @@
+.finance {
+  width: 100%;
+  margin: 0;
+}
+
+.container {
+  width: 63.538%;
+  margin: 30px auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.image {
+  object-fit: cover;
+  object-position: center;
+  background-color: transparent;
+  width: 100%;
+  height: 240px;
+}
+
+

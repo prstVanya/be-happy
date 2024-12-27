@@ -1,8 +1,9 @@
 import { useLaunchParams, miniApp, useSignal } from '@telegram-apps/sdk-react';
+import { classNames } from '@/utils/classNames/className';
 import { AppRoot } from '@telegram-apps/telegram-ui';
-import { Navigate, Route, Routes, HashRouter } from 'react-router-dom';
-
-import { routes } from '@/navigation/routes.tsx';
+import { HashRouter } from 'react-router-dom';
+import { AppRouter } from './AppRouter';
+import '@/vendor/index.css';
 
 export function App() {
   const lp = useLaunchParams();
@@ -14,10 +15,11 @@ export function App() {
       platform={['macos', 'ios'].includes(lp.platform) ? 'ios' : 'base'}
     >
       <HashRouter>
-        <Routes>
-          {routes.map((route) => <Route key={route.path} {...route} />)}
-          <Route path="*" element={<Navigate to="/"/>}/>
-        </Routes>
+        <div className={classNames('app test', {}, [])}>
+          <div className={classNames('wrapper', {}, [])}>
+            <AppRouter />
+          </div>
+        </div>
       </HashRouter>
     </AppRoot>
   );

@@ -1,0 +1,12 @@
+.choices {
+  margin: 0 auto;
+  width: 92.307%;
+  display: flex;
+  gap: 5px;
+  padding: 5px;
+  background-color: var(--bg-secondary);
+  border-radius: 30px;
+}
+
+
+
