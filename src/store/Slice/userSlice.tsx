@@ -6,17 +6,15 @@ export const fetchUserData = createAsyncThunk<IUserState, void>(
   'user/fetchUserData',
   async () => {
     if (import.meta.env.DEV) {
-      // Если в режиме разработки, используем макковые данные
       const mockData: IUserState = {
         id: '99281932',
         first_name: 'Andrew',
         last_name: 'Rogue',
         username: 'rogue',
-        avatar: AvatarImage, // Здесь можно поставить любое изображение для аватара
+        avatar: AvatarImage,
       };
       return mockData;
     } else if (window.Telegram && window.Telegram.WebApp) {
-      // Если не в режиме разработки, используем настоящие данные Telegram WebApp
       const user = window.Telegram.WebApp.initDataUnsafe.user;
       const userData: IUserState = {
         id: user?.id.toString() || '',
