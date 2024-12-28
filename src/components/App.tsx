@@ -1,7 +1,7 @@
 import { useLaunchParams, miniApp, useSignal } from '@telegram-apps/sdk-react';
 import { classNames } from '@/utils/classNames/className';
 import { AppRoot } from '@telegram-apps/telegram-ui';
-import { HashRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { AppRouter } from './AppRouter';
 import '@/vendor/index.css';
 
@@ -14,13 +14,13 @@ export function App() {
       appearance={isDark ? 'dark' : 'light'}
       platform={['macos', 'ios'].includes(lp.platform) ? 'ios' : 'base'}
     >
-      <HashRouter>
+      <BrowserRouter>
         <div className={classNames('app test', {}, [])}>
           <div className={classNames('wrapper', {}, [])}>
             <AppRouter />
           </div>
         </div>
-      </HashRouter>
+      </BrowserRouter>
     </AppRoot>
   );
 }
