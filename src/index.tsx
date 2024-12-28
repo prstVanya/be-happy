@@ -1,6 +1,8 @@
 import ReactDOM from 'react-dom/client';
 import { StrictMode } from 'react';
 import { retrieveLaunchParams } from '@telegram-apps/sdk-react';
+import { store } from './store/index.ts';
+import { Provider } from 'react-redux';
 
 import { Root } from '@/components/Root.tsx';
 import { EnvUnsupported } from '@/components/EnvUnsupported.tsx';
@@ -20,7 +22,9 @@ try {
 
   root.render(
     <StrictMode>
-      <Root/>
+      <Provider store={store}>
+        <Root/>
+      </Provider>
     </StrictMode>,
   );
 } catch (e) {

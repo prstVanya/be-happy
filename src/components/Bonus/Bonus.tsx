@@ -10,14 +10,14 @@ interface IBonusData {
 }
 
 export const Bonus = ({ className }: IBonusData) => {
-  const [popup, setPopup] = useState<boolean | null>(false);
+  const [popup, setPopup] = useState<boolean>(false);
 
   const handleOpenPopup = () => {
     setPopup((prev) => !prev);
   };
 
   const handleClosePopup = () => {
-    setPopup(null);
+    setPopup(false);
   };
 
   return (
@@ -25,7 +25,8 @@ export const Bonus = ({ className }: IBonusData) => {
       <div className={classNames(cls.container, {}, [])}>
         <BonusPopup
           onClose={handleClosePopup}
-          isOpen={popup} />
+          isOpen={popup} 
+        />
         <UserInfo
           visibleTitle={true}
           title='Бонусы'
