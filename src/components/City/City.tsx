@@ -9,7 +9,10 @@ export const City = () => {
   return (
     <main className={classNames(cls.main, {}, [])}>
       <div className={classNames(cls.div, {}, [])}>
-        <UserInfo visibleTitle={true} title='HappyCiy' />
+        <UserInfo 
+          visibleTitle={true} 
+          title='HappyCiy' 
+        />
         <CityLevel />
         <FinanceLevel />
         <Business />
