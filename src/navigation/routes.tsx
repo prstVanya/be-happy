@@ -11,7 +11,6 @@ export enum AppMainPageRoutes {
   BONUS = 'bonus',
 }
 
-
 export const AppMainPageRoutePath: Record<AppMainPageRoutes, string> = {
   [AppMainPageRoutes.MAIN]: '/',
   [AppMainPageRoutes.PROFILE]: '/profile',
@@ -35,6 +34,6 @@ export const appPageRouteConfig: Record<AppMainPageRoutes, RouteProps> = {
   [AppMainPageRoutes.BONUS]: {
     path: AppMainPageRoutePath.bonus,
     element: <Bonus />
-  }
+  },
 };
 

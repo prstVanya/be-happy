@@ -7,7 +7,7 @@ const AppRouter = () => {
   return (
     <Suspense fallback='Загрузка...'>
       <Routes>
-        <Route element={<MainPage />}>
+        <Route path='/' element={<MainPage />}>
           {Object.values(appPageRouteConfig).map(({ path, element }) => (
             <Route key={path} path={path} element={element} />
           ))}
