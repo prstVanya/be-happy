@@ -26,14 +26,14 @@ export const NavBar = ({ className }: INavBar) => {
                 key={i}
               >
                 <Link
-                  className={classNames(cls.link, {}, [])}
+                  className={classNames(cls.link, { [cls.marg]: i === 2 }, [])}
                   onClick={() => handleClickToIcon(i)}
                   to={w.to}
                 >
                   <img
                     src={activeIcon === i ? w.activeIcon : w.icon}
                     alt="icon"
-                    className={classNames(cls.icon, {}, [])}
+                    className={classNames(cls.icon, { [cls.miniIcon]: i === 0 || i === 3 || i === 4 }, [])}
                   />
                 </Link>
               </li>

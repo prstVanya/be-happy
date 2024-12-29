@@ -12,6 +12,7 @@ const AppRouter = () => {
             <Route key={path} path={path} element={element} />
           ))}
         </Route>
+        <Route path="*" element={<MainPage />} />
       </Routes>
     </Suspense>
   );

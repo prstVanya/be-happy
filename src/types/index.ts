@@ -1,7 +1,9 @@
-export interface IUserState {
-  id: string;
-  first_name?: string;
-  last_name?: string;
-  username: string;
-  avatar?: string | null;
+export interface RootState {
+  user: {
+    info: {
+      username?: string;
+      telegramId?: string;
+      avatar?: string;
+    };
+  };
 }

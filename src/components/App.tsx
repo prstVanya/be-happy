@@ -1,13 +1,37 @@
-import { useLaunchParams, miniApp, useSignal } from '@telegram-apps/sdk-react';
+import { 
+  useLaunchParams, 
+  miniApp, 
+  useSignal,
+} from '@telegram-apps/sdk-react';
 import { classNames } from '@/utils/classNames/className';
 import { AppRoot } from '@telegram-apps/telegram-ui';
 import { HashRouter } from 'react-router-dom';
 import { AppRouter } from './AppRouter';
+import { setUserInfoAction } from '@/store/Slice/userSlice';
+import WebApp from '@twa-dev/sdk';
 import '@/vendor/index.css';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 
 export function App() {
   const lp = useLaunchParams();
   const isDark = useSignal(miniApp.isDark);
+  const dispatch = useDispatch();
+
+  const login = async () => {
+    const initData = WebApp.initDataUnsafe; // Получаем данные из Telegram Web App SDK
+    
+    if (initData && initData.user && initData.user.id) {
+      const user = initData.user; // Получаем данные о пользователе
+      // Просто передаем данные в Redux, без запроса на сервер
+      dispatch(setUserInfoAction(user)); // Устанавливаем данные о пользователе в Redux
+      localStorage.setItem('authorization', user.id.toString()); // Сохраняем authorization в localStorage
+    }
+  };
+
+  useEffect(() => {
+    login();
+  }, []);
 
   return (
     <AppRoot

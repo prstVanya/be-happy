@@ -1,83 +1,71 @@
-import { IUserState } from '@/types';
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import AvatarImage from '@/assets/images/avatar.jpeg';
+import { createSlice } from '@reduxjs/toolkit'
 
-export const fetchUserData = createAsyncThunk<IUserState, void, { rejectValue: string }>(
-  'user/fetchUserData',
-  async (_, { rejectWithValue }) => {
-    if (import.meta.env.DEV) {
-      const mockData: IUserState = {
-        id: '99281932',
-        first_name: 'Andrew',
-        last_name: 'Rogue',
-        username: 'rogue',
-        avatar: AvatarImage, 
-      };
-      return mockData;
-    } else if (window.Telegram && window.Telegram.WebApp) {
-      const tg = window.Telegram.WebApp;
+function getUserInfo(){
+  let obj = {};
 
-      if (tg.initDataUnsafe?.user?.id) {
-        const userData: IUserState = {
-          id: tg.initDataUnsafe.user.id.toString(),
-          first_name: tg.initDataUnsafe.user.first_name || undefined,
-          last_name: tg.initDataUnsafe.user.last_name || undefined,
-          username: tg.initDataUnsafe.user.username || '',
-          avatar: tg.initDataUnsafe.user.photo_url || null,
-        };
-        console.log("User data from Telegram:", JSON.stringify(userData));
-        return userData;
-      }
-
-      const urlParams = new URLSearchParams(window.location.search);
-      const userID = urlParams.get('user_id');
-
-      if (userID) {
-        console.log("User ID from URL:", userID);
-        return {
-          id: userID,
-          first_name: undefined,
-          last_name: undefined,
-          username: '',
-          avatar: null,
-        };
-      }
-
-      return rejectWithValue('User data is unavailable');
-    } else {
-      return rejectWithValue('Telegram WebApp not available');
+  try {
+    const _userInfo = localStorage.getItem('userInfo')
+    if (_userInfo) {
+      obj = JSON.parse(_userInfo)
     }
+  } catch (err) {
+    console.error('Error retrieving user info:', err instanceof Error ? err.message : err);
   }
-);
-
-
-interface UserState {
-  data: IUserState | null;
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  return obj
 }
 
-const initialState: UserState = {
-  data: null,
-  status: 'idle',
-};
+
+function getEthInfo(){
+  let obj = {};
+
+  try {
+    const _ethInfo = localStorage.getItem('ethInfo');
+    if (_ethInfo) {
+      obj = JSON.parse(_ethInfo);
+    }
+  } catch (err){
+    console.error('Error retrieving user info:', err instanceof Error ? err.message : err);
+  }
+  return obj;
+}
+
+function getSystemCOnfig(){
+  let obj = {};
+
+  try {
+    const _ethInfo = localStorage.getItem('systemInfo');
+    if (_ethInfo) {
+      obj = JSON.parse(_ethInfo);
+    }
+  } catch (err){
+    console.error('Error retrieving user info:', err instanceof Error ? err.message : err);
+  }
+  return obj;
+}
 
 const userSlice = createSlice({
   name: 'user',
-  initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchUserData.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(fetchUserData.fulfilled, (state, action: PayloadAction<IUserState>) => {
-        state.status = 'succeeded';
-        state.data = action.payload;
-      })
-      .addCase(fetchUserData.rejected, (state) => {
-        state.status = 'failed';
-      });
+  initialState: {
+    info: getUserInfo(),
+    eth: getEthInfo(),
+    system: getSystemCOnfig()
+  },
+  reducers: {
+    setUserInfoAction(state, action) {
+      console.log('Данные для сохранения в Redux:', action.payload);
+      state.info = { ...state.info, ...action.payload };
+      localStorage.setItem('userInfo', JSON.stringify(state.info)); // сохраняем в localStorage
+    },
+    setEthAction(state, action) {
+      state.eth = action.payload;
+      localStorage.setItem('ethInfo', JSON.stringify(state.eth)); // сохраняем в localStorage
+    },
+    setSystemAction(state, action) {
+      state.system = action.payload;
+      localStorage.setItem('systemInfo', JSON.stringify(state.system)); // сохраняем в localStorage
+    },
   },
 });
 
+export const { setUserInfoAction, setEthAction, setSystemAction } = userSlice.actions;
 export default userSlice.reducer;
