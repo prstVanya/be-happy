@@ -5,6 +5,7 @@ import cls from './UserInfo.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUserInfoAction } from '@/store/Slice/userSlice';
 import { useEffect } from 'react';
+import { userApi } from '@/Api/UserApi';
 
 interface IUserInfoData {
   title?: string;
@@ -17,13 +18,18 @@ export const UserInfo = ({
   const userInfo = useSelector((state: any) => state.user.info);
   const dispatch = useDispatch();
 
-  const fetchUserInfo = () => {
+  const fetchUserInfo = async () => {
     const initData = WebApp.initDataUnsafe;
 
     if (initData && initData.user) {
       const user = initData.user;
 
-      dispatch(setUserInfoAction(user));
+      try {
+        const userData = await userApi.getUserById(user.id);
+        dispatch(setUserInfoAction(userData));
+      } catch (err) {
+        console.error('Ошибка при получении информации о пользователе:', err);
+      }
     } else {
       console.error('Не удалось получить данные пользователя из WebApp');
     }

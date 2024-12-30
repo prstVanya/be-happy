@@ -1,1 +1,1 @@
-export { Slider } from './ui/Slider';
+export { SliderData } from './ui/Slider';
