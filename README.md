@@ -4,7 +4,7 @@
 ## backend, frontend репозитории
 
 - [Front-end](https://github.com/prstVanya/be-happy) , чекать ветку feat/Profile
-- Бэкенд: [Back-end](https://github.com/artemiy6451/be-happy-backend)
+- [Back-end](https://github.com/artemiy6451/be-happy-backend)
 
 ## Установка зависимостей
 
