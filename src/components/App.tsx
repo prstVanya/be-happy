@@ -13,6 +13,9 @@ import '@/vendor/index.css';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 
+import { IUserInfoData } from '@/types';
+import { userApi } from '@/Api/Api';
+
 export function App() {
   const lp = useLaunchParams();
   const isDark = useSignal(miniApp.isDark);
@@ -22,9 +25,19 @@ export function App() {
     const initData = WebApp.initDataUnsafe;
     
     if (initData && initData.user && initData.user.id) {
-      const user = initData.user;
-      dispatch(setUserInfoAction(user));
-      localStorage.setItem('authorization', user.id.toString());
+      const user: IUserInfoData = {
+        id: initData.user.id,
+        first_name: initData.user.first_name || '',
+        last_name: initData.user.last_name || '',
+        username: initData.user.username || '',
+      };
+      try {
+        const createUser = await userApi.addUser(user);
+        dispatch(setUserInfoAction(createUser));
+        localStorage.setItem('authorization', user.id.toString());
+      } catch (err) {
+        console.error("Error during login:", err);
+      }
     }
   };
 
