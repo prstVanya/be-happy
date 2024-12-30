@@ -14,7 +14,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 
 import { IUserInfoData } from '@/types';
-import { userApi } from '@/Api/Api';
+import { userApi } from '@/Api/UserApi';
 
 export function App() {
   const lp = useLaunchParams();

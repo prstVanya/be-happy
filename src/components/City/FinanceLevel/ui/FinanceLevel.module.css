@@ -1,6 +1,8 @@
 .finance {
   width: 100%;
   margin: 0;
+  position: relative;
+  z-index: 2;
 }
 
 .container {

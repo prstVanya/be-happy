@@ -33,7 +33,10 @@ export const NavBar = ({ className }: INavBar) => {
                   <img
                     src={activeIcon === i ? w.activeIcon : w.icon}
                     alt="icon"
-                    className={classNames(cls.icon, { [cls.miniIcon]: i === 0 || i === 3 || i === 4 }, [])}
+                    className={classNames(cls.icon, { 
+                      [cls.miniIcon]: i === 0 || i === 3 || i === 4,
+                      [cls.height]: i === 0,
+                    }, [])}
                   />
                 </Link>
               </li>

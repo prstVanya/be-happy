@@ -1,5 +1,6 @@
 import { classNames } from '../../../../utils/classNames/className';
 import AvatarImage from '@/assets/images/avatar.jpeg';
+import CopyIconSvg from '@/assets/images/icons/copy.svg';
 import WebApp from '@twa-dev/sdk';
 import cls from './UserInfo.module.css';
 import { useSelector, useDispatch } from 'react-redux';
@@ -17,6 +18,11 @@ export const UserInfo = ({
   const userInfo = useSelector((state: any) => state.user.info);
   const dispatch = useDispatch();
 
+  const handleClickToCopy = () => {
+    const id = userInfo?.id;
+    navigator.clipboard.writeText(id);
+  }
+  
   const fetchUserInfo = () => {
     const initData = WebApp.initDataUnsafe;
 
@@ -51,6 +57,16 @@ export const UserInfo = ({
             <p className={classNames(cls.id, {}, [])}>
               {`id: ${userInfo?.id || ''}`}
             </p>
+            <button 
+              onClick={handleClickToCopy} 
+              className={classNames(cls.copy, {}, [])}
+            >
+              <img 
+                className={classNames(cls.svg, {}, [])}
+                alt='#'
+                src={CopyIconSvg}
+              />
+            </button>
             <button className={classNames(cls.copy, {}, [])}></button>
           </div>
         </div>
