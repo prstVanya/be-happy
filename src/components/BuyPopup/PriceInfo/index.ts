@@ -1,0 +1,1 @@
+export { PriceInfo } from './ui/PriceInfo';

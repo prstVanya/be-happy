@@ -1,0 +1,37 @@
+.block {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card {
+  gap: 7px;
+  display: flex;
+  flex-direction: column;
+}
+
+.subtitle {
+  font-size: 12px;
+  line-height: 15px;
+  font-family: var(--font-inter-regular);
+  color: var(--text-color-secondary);
+  margin: 0;
+}
+
+.info {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bl {
+  font-size: 16px;
+  line-height: 15px;
+  font-family: var(--font-inter-regular);
+  color: var(--text-color-premium);
+  margin: 0;
+}
+
+

@@ -5,11 +5,13 @@ import { FinanceLevel } from './FinanceLevel';
 import { Business } from './Business';
 import { BackgroundCity } from '../Background';
 import cls from './City.module.css';
+import { BuyPopup } from '../BuyPopup';
 
 export const City = () => {
   return (
     <main className={classNames(cls.main, {}, [])}>
       <div className={classNames(cls.div, {}, [])}>
+        <BuyPopup isOpen={false} />
         <UserInfo 
           visibleTitle={true} 
           title='HappyCiy' 
