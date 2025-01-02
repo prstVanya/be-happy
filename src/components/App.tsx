@@ -8,10 +8,13 @@ import { AppRoot } from '@telegram-apps/telegram-ui';
 import { HashRouter } from 'react-router-dom';
 import { AppRouter } from './AppRouter';
 import { setUserInfoAction } from '@/store/Slice/userSlice';
-import WebApp from '@twa-dev/sdk';
 import '@/vendor/index.css';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
+import { mockInitData } from '@/utils/mockData/mockData';
+
+import { IUserInfoData } from '@/types';
+import { userApi } from '@/Api/UserApi';
 
 export function App() {
   const lp = useLaunchParams();
@@ -19,12 +22,29 @@ export function App() {
   const dispatch = useDispatch();
 
   const login = async () => {
-    const initData = WebApp.initDataUnsafe;
-    
+    const initData = mockInitData;
+  
     if (initData && initData.user && initData.user.id) {
-      const user = initData.user;
-      dispatch(setUserInfoAction(user));
-      localStorage.setItem('authorization', user.id.toString());
+      const user: IUserInfoData = {
+        id: Number(initData.user.id),
+        first_name: initData.user.first_name || '',
+        last_name: initData.user.last_name || '',
+        username: initData.user.username || '',
+      };
+  
+      try {
+        const existingUser = localStorage.getItem('authorization');
+        
+        if (existingUser && Number(existingUser) === user.id) {
+          dispatch(setUserInfoAction(user));
+        } else {
+          const createUser = await userApi.addUser(user);
+          dispatch(setUserInfoAction(createUser));
+          localStorage.setItem('authorization', user.id.toString());
+        }
+      } catch (err) {
+        console.error('Error during login:', err);
+      }
     }
   };
 

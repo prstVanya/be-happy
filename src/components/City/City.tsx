@@ -3,6 +3,7 @@ import { UserInfo } from '../Profile/UserInfo';
 import { CityLevel } from './CityLevel';
 import { FinanceLevel } from './FinanceLevel';
 import { Business } from './Business';
+import { BackgroundCity } from '../Background';
 import cls from './City.module.css';
 
 export const City = () => {
@@ -13,6 +14,7 @@ export const City = () => {
           visibleTitle={true} 
           title='HappyCiy' 
         />
+        <BackgroundCity />
         <CityLevel />
         <FinanceLevel />
         <Business />

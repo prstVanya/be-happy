@@ -1,0 +1,1 @@
+export { BackgroundCity } from './ui/BackgroundCity';

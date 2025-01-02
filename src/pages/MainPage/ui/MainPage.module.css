@@ -6,6 +6,7 @@
 .nav {
   bottom: 10%;
   left: 50%;
+  z-index: 1000;
   position: fixed;
   transform: translateX(-50%);
 }

@@ -26,7 +26,7 @@ export const SliderData = ({ className, onOpen }: ISliderData) => {
 
   const settings = {
     infinite: false,
-    speed: 400,
+    speed: 300,
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
