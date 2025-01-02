@@ -1,5 +1,5 @@
 import { Api } from "./Api";
-import { IUserInfoData, IUserDetails } from "@/types";
+import { IUserInfoData, IUserDetails, IBuildingData } from "@/types";
 
 export class UserApi extends Api {
   constructor(baseUrl: string, options?: RequestInit) {
@@ -17,6 +17,18 @@ export class UserApi extends Api {
   
   getUserById(id: number): Promise<{ user: IUserDetails }> {
     return this.request(`/user/${id}`, 'GET');
+  }
+
+  addBuilding(building: IBuildingData): Promise<IBuildingData> {
+    return this.request('/city/building/add', 'POST', {
+      name: building.name,
+      income: building.income,
+      cost: building.cost,
+    });
+  }
+
+  getAllBuildings(): Promise<IBuildingData[]> {
+    return this.request('/city/building/get_all', 'GET');
   }
 }
 

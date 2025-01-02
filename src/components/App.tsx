@@ -8,18 +8,40 @@ import { AppRoot } from '@telegram-apps/telegram-ui';
 import { HashRouter } from 'react-router-dom';
 import { AppRouter } from './AppRouter';
 import { setUserInfoAction } from '@/store/Slice/userSlice';
+import { addBuilding } from '@/store/Slice/citySlice';
 import '@/vendor/index.css';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { mockInitData } from '@/utils/mockData/mockData';
-
 import { IUserInfoData } from '@/types';
 import { userApi } from '@/Api/UserApi';
+import { cityAdd } from './City/model/cityAdd';
 
 export function App() {
   const lp = useLaunchParams();
   const isDark = useSignal(miniApp.isDark);
   const dispatch = useDispatch();
+
+  const createBuilding = async () => {
+    try {
+      for (const building of cityAdd) {
+        const createdBuilding = await userApi.addBuilding({
+          name: building.name,
+          income: building.income,
+          cost: building.cost,
+        });
+  
+        dispatch(addBuilding({
+          income: createdBuilding.income,
+          cost: createdBuilding.cost,
+          name: building.name,
+          image: building.image,
+        }));
+      }
+    } catch (err) {
+      console.error("Ошибка при создании здания:", err);
+    }
+  };
 
   const login = async () => {
     const initData = mockInitData;
@@ -33,15 +55,9 @@ export function App() {
       };
   
       try {
-        const existingUser = localStorage.getItem('authorization');
-        
-        if (existingUser && Number(existingUser) === user.id) {
-          dispatch(setUserInfoAction(user));
-        } else {
-          const createUser = await userApi.addUser(user);
-          dispatch(setUserInfoAction(createUser));
-          localStorage.setItem('authorization', user.id.toString());
-        }
+        const createUser = await userApi.addUser(user);
+        dispatch(setUserInfoAction(createUser));
+        localStorage.setItem('authorization', user.id.toString());
       } catch (err) {
         console.error('Error during login:', err);
       }
@@ -50,6 +66,7 @@ export function App() {
 
   useEffect(() => {
     login();
+    createBuilding();
   }, []);
 
   return (

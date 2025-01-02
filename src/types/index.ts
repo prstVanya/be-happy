@@ -13,6 +13,20 @@ export interface IUserDetails {
   balance?: number;
 }
 
+export interface IBuildingData {
+  name: string;
+  income: number;
+  cost: number;
+}
+
+export interface ICityAdd {
+  id?: number;
+  image?: string;
+  name: string;
+  income: number;
+  cost: number;
+}
+
 export interface IUserBalance {
   user_id: number;
 }
