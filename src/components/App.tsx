@@ -8,10 +8,10 @@ import { AppRoot } from '@telegram-apps/telegram-ui';
 import { HashRouter } from 'react-router-dom';
 import { AppRouter } from './AppRouter';
 import { setUserInfoAction } from '@/store/Slice/userSlice';
-import WebApp from '@twa-dev/sdk';
 import '@/vendor/index.css';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
+import { mockInitData } from '@/utils/mockData/mockData';
 
 import { IUserInfoData } from '@/types';
 import { userApi } from '@/Api/UserApi';
@@ -22,7 +22,7 @@ export function App() {
   const dispatch = useDispatch();
 
   const login = async () => {
-    const initData = WebApp.initDataUnsafe;
+    const initData = mockInitData;
     
     if (initData && initData.user && initData.user.id) {
       const user: IUserInfoData = {
