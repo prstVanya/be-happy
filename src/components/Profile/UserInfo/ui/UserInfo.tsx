@@ -1,11 +1,11 @@
 import { classNames } from '../../../../utils/classNames/className';
 import AvatarImage from '@/assets/images/avatar.jpeg';
 import CopyIconSvg from '@/assets/images/icons/copy.svg';
-import WebApp from '@twa-dev/sdk';
 import cls from './UserInfo.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUserInfoAction } from '@/store/Slice/userSlice';
 import { useEffect } from 'react';
+import { mockInitData } from '@/utils/mockData/mockData';
 
 interface IUserInfoData {
   title?: string;
@@ -24,7 +24,7 @@ export const UserInfo = ({
   }
   
   const fetchUserInfo = () => {
-    const initData = WebApp.initDataUnsafe;
+    const initData = mockInitData;
 
     if (initData && initData.user) {
       const user = initData.user;

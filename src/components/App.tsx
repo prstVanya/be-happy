@@ -23,20 +23,27 @@ export function App() {
 
   const login = async () => {
     const initData = mockInitData;
-    
+  
     if (initData && initData.user && initData.user.id) {
       const user: IUserInfoData = {
-        id: initData.user.id,
+        id: Number(initData.user.id),
         first_name: initData.user.first_name || '',
         last_name: initData.user.last_name || '',
         username: initData.user.username || '',
       };
+  
       try {
-        const createUser = await userApi.addUser(user);
-        dispatch(setUserInfoAction(createUser));
-        localStorage.setItem('authorization', user.id.toString());
+        const existingUser = localStorage.getItem('authorization');
+        
+        if (existingUser && Number(existingUser) === user.id) {
+          dispatch(setUserInfoAction(user));
+        } else {
+          const createUser = await userApi.addUser(user);
+          dispatch(setUserInfoAction(createUser));
+          localStorage.setItem('authorization', user.id.toString());
+        }
       } catch (err) {
-        console.error("Error during login:", err);
+        console.error('Error during login:', err);
       }
     }
   };
