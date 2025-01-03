@@ -5,7 +5,7 @@ import cls from './UserInfo.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUserInfoAction } from '@/store/Slice/userSlice';
 import { useEffect } from 'react';
-import { mockInitData } from '@/utils/mockData/mockData';
+import WebApp from '@twa-dev/sdk';
 
 interface IUserInfoData {
   title?: string;
@@ -17,6 +17,10 @@ export const UserInfo = ({
 }: IUserInfoData) => {
   const userInfo = useSelector((state: any) => state.user.info);
   const dispatch = useDispatch();
+  const initData = WebApp.initDataUnsafe;
+  console.log(initData);
+
+
 
   const handleClickToCopy = () => {
     const id = userInfo?.id;
@@ -24,7 +28,7 @@ export const UserInfo = ({
   }
   
   const fetchUserInfo = () => {
-    const initData = mockInitData;
+    const initData = WebApp.initDataUnsafe;
 
     if (initData && initData.user) {
       const user = initData.user;
@@ -49,7 +53,7 @@ export const UserInfo = ({
         />
         <div className={classNames(cls.block, {}, [])}>
           <h1 className={classNames(cls.name, {}, [])}>
-            {userInfo?.username || ''}
+            {userInfo?.name || ''}
           </h1>
           <div className={classNames(cls.code, {}, [])}>
             <p className={classNames(cls.id, {}, [])}>
