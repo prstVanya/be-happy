@@ -57,7 +57,7 @@ export const SliderData = ({ className, onOpen }: ISliderData) => {
             <div className={classNames(cls.imageWrap, {}, [])}>
               <div className={classNames(cls.cardInfoWrap, {}, [])}>
                 <div className={classNames(cls.cardInfo, {}, [])}>
-                  <p className={classNames(cls.money, {}, [])}>{balance.toLocaleString()}</p>
+                  <p className={classNames(cls.money, {}, [])}>{balance.balance.toLocaleString()}</p>
                   <img 
                     className={classNames(cls.ic, {}, [])}
                     alt='#'

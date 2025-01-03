@@ -9,7 +9,7 @@ import { BuyPopup } from '../BuyPopup';
 import { useDispatch, useSelector } from 'react-redux';
 import { userApi } from '@/Api/UserApi';
 import React, { useEffect, useState } from 'react';
-import { setUserBuildingsAction } from '@/store/Slice/userSlice';
+import { setUserBuildingsAction, setUserBalanceAction } from '@/store/Slice/userSlice';
 import { IBuilding, IBuildingData, IUserInfoData } from '@/types';
 
 export const City = () => {
@@ -17,7 +17,6 @@ export const City = () => {
   const buildings = useSelector((state: any) => state.city.buildings);
   const balance = useSelector((state: any) => state.user.balance);
   const user = useSelector((state: any) => state.user.info);
-  const userBuildings = useSelector((state: any) => state.user.buildings);
   const [selectedBuilding, setSelectedBuilding] = useState<IBuilding | null>(null);
   const [userBuilding, setUserBuilding] = useState<IBuildingData[]>([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -34,8 +33,30 @@ export const City = () => {
 
   const buyBuildingThunk = async (building: any) => {
     try {
+      const selectedBuilding = buildings.find((item: any) => item.id === building.id);
+      if (!selectedBuilding) {
+        console.error("Здание не найдено.");
+        return;
+      }
+      const buildingCost = Number(selectedBuilding.cost);
+      const buildingIncome = Number(selectedBuilding.income);
+
+      console.log(building.id);
+      console.log(buildingCost, buildingIncome);
+
+      if (isNaN(buildingCost) || isNaN(buildingIncome)) {
+        console.error('Ошибка: неверные значения для стоимости или дохода здания');
+        return;
+      }
       const result = await userApi.buyBuilding(user.id, building.id);
       if (result.user_id) {
+        const updatedBalance = balance.balance - buildingCost;
+        const updatedIncome = balance.income + buildingIncome;
+        dispatch(setUserBalanceAction({
+          user_id: user.id,
+          balance: updatedBalance,
+          income: updatedIncome,
+        }));
         const updatedBuildings = await fetchUserBuildings(user);
         setUserBuilding(updatedBuildings); 
         dispatch(setUserBuildingsAction(updatedBuildings));
@@ -52,6 +73,24 @@ export const City = () => {
     setUserBuilding(building);
   }
 
+  const earnDailyReward = async () => {
+    try {
+      const result = await userApi.earnDaily(user.id);
+      if (result.user_id && result.balance) {
+        const updatedBalance = balance.balance + result.balance;
+
+        dispatch(setUserBalanceAction({
+          user_id: user.id,
+          balance: updatedBalance,
+          income: balance.income,
+        }));
+      }
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   useEffect(() => {
     loadDataBuildings();
   }, []);
@@ -63,9 +102,6 @@ export const City = () => {
     return matchingUserBuilding ? { ...building, ...matchingUserBuilding } : building;
   });
 
-  console.log(userBuilding);
-  console.log('Filtered Buildings:', filteredBuildings);
-
   const handleBuyClick = (building: any) => {
     console.log(building);
     setSelectedBuilding(building);
@@ -74,11 +110,10 @@ export const City = () => {
 
   const handleClosePopup = (evt: React.MouseEvent) => {
     evt.preventDefault();
+
     setIsPopupOpen(false);
     setSelectedBuilding(null);
   };
-
-  console.log('useEffect triggered', { userBuildings, buildings });
 
   return (
     <main className={classNames(cls.main, {}, [])}>
@@ -95,8 +130,12 @@ export const City = () => {
           title='HappyCiy' 
         />
         <BackgroundCity />
-        <CityLevel />
-        <FinanceLevel />
+        <CityLevel
+          income={balance.income}
+        />
+        <FinanceLevel
+          onSubmit={earnDailyReward}
+        />
         <Business
           userId={user.id}
           onBuyClick={handleBuyClick}

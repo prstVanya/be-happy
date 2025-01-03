@@ -46,6 +46,12 @@ export interface IUserBalance {
   user_id: number;
 }
 
+export interface IUserBalanceResponse {
+  user_id: number;
+  balance: number;
+  income: number;
+}
+
 export interface IUserBalance {
   user_id: number;
   balance: number;

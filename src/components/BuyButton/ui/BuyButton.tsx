@@ -3,20 +3,18 @@ import cls from './BuyButton.module.css';
 
 interface IButtonSelectData {
   className?: string;
-  title?: string;
-  isSold: boolean;
+  isEarn: boolean;
   onClick?: () => void;
 }
 
-const ButtonSelect = ({ title, onClick, isSold }: IButtonSelectData) => {
+export const EarnButton = ({ onClick, isEarn }: IButtonSelectData) => {
   return (
     <button
-      className={classNames(cls.button, { [cls.active]: isSold }, [])}
+      className={classNames(cls.button, { [cls.active]: isEarn }, [])}
       onClick={onClick}
     >
-      {title}
+
+      {!isEarn ? 'Забрать доход' : 'Будет доступно завтра!'}
     </button>
   );
 };
-
-export default ButtonSelect;
