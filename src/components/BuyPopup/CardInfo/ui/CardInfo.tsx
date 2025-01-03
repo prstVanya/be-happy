@@ -5,9 +5,10 @@ import MoneyIcon from '@/assets/images/icons/Subtract.svg';
 
 interface ICardInfo {
   className?: string;
+  balance: number; 
 }
 
-export const CardInfo = ({ className }: ICardInfo) => {
+export const CardInfo = ({ className, balance }: ICardInfo) => {
   return (
     <div className={classNames(cls.block, {}, [className || ''])}>
       <div className={classNames(cls.card, {}, [])}>
@@ -24,7 +25,7 @@ export const CardInfo = ({ className }: ICardInfo) => {
       <div className={classNames(cls.card, {}, [])}>
         <p className={classNames(cls.subtitle, {}, [])}>Текущий баланс</p>
         <div className={classNames(cls.info, {}, [])}>
-          <p className={classNames(cls.bl, {}, [])}>1 000 000</p>
+          <p className={classNames(cls.bl, {}, [])}>{balance.toLocaleString()}</p>
           <img 
             className={classNames(cls.icon, {}, [])}
             alt='#'

@@ -5,9 +5,12 @@ import MoneyIcon from '@/assets/images/icons/Subtract.svg';
 
 interface IMainInfoData {
   className?: string;
+  building: {
+    income: number;
+  } | null;
 }
 
-export const MainInfo = ({ className }: IMainInfoData) => {
+export const MainInfo = ({ className, building }: IMainInfoData) => {
   return (
     <div className={classNames(cls.mainInfo, {}, [className || ''])}>
       <img 
@@ -19,7 +22,7 @@ export const MainInfo = ({ className }: IMainInfoData) => {
         <div className={classNames(cls.money, {}, [])}>
           <p className={classNames(cls.subtitle, {}, [])}>Доход в день:</p>
           <div className={classNames(cls.income, {}, [])}>
-            <p className={classNames(cls.moneyText)}>+500</p>
+            <p className={classNames(cls.moneyText)}>{building?.income}</p>
             <img 
               className={classNames(cls.icon, {}, [])}
               alt='#'

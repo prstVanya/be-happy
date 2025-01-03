@@ -10,10 +10,11 @@ interface IBusinessData {
     image: string;
     name: string;
     income: number;
-  }>;
+  }>
+  onBuyClick: (building: any) => void;
 }
 
-export const Business = ({ className, buildings }: IBusinessData) => {
+export const Business = ({ className, buildings, onBuyClick }: IBusinessData) => {
   return (
     <section className={classNames(cls.business, {}, [className || ''])}>
       <div className={classNames(cls.container, {}, [])}>
@@ -49,7 +50,11 @@ export const Business = ({ className, buildings }: IBusinessData) => {
                       src={MoneyIcon}
                     />
                   </div>
-                  <ButtonSelect isLight={false} title='Купить' />
+                  <ButtonSelect 
+                    onClick={() => onBuyClick(w)} 
+                    isLight={false} 
+                    title='Купить' 
+                  />
                 </div>
               </li>
             )

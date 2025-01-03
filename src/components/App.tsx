@@ -7,7 +7,7 @@ import { classNames } from '@/utils/classNames/className';
 import { AppRoot } from '@telegram-apps/telegram-ui';
 import { HashRouter } from 'react-router-dom';
 import { AppRouter } from './AppRouter';
-import { setUserInfoAction } from '@/store/Slice/userSlice';
+import { setUserInfoAction, setUserBalanceAction } from '@/store/Slice/userSlice';
 import { addBuilding } from '@/store/Slice/citySlice';
 import '@/vendor/index.css';
 import { useDispatch } from 'react-redux';
@@ -26,7 +26,7 @@ export function App() {
     const initData = mockInitData;
 
     if (!initData || !initData.user || !initData.user.id) {
-      console.error("No user data found in initialization parameters.");
+      console.error("пользователя нет.");
       return null;
     }
 
@@ -45,14 +45,14 @@ export function App() {
         return existingUser.user;
       }
     } catch (err) {
-      console.warn("User not found, creating a new user...");
+      console.warn("создание пользователя");
 
       try {
         const newUser = await userApi.addUser(user);
         dispatch(setUserInfoAction(newUser));
         return newUser;
       } catch (addUserErr) {
-        console.error("Error creating a new user:", addUserErr);
+        console.error("ошибка:", addUserErr);
         return null;
       }
     }
@@ -67,11 +67,26 @@ export function App() {
     }
   };
 
+  const fetchUserBalance = async () => {
+    try {
+      const user = await checkUser();
+      if (user) {
+        const userId = user.id;
+        const response = await userApi.getUserBalance(userId);
+        dispatch(setUserBalanceAction(response.balance));
+      } else {
+        console.error("пользователя нет.");
+      }
+    } catch (error) {
+      console.error("ошибка:", error);
+    }
+  };
+
   const createBuilding = async () => {
     const user = await checkUser();
 
     if (!user) {
-      console.error("Cannot create buildings, user does not exist.");
+      console.error("пользователя нет");
       return;
     }
 
@@ -91,13 +106,14 @@ export function App() {
         }));
       }
     } catch (err) {
-      console.error("Error while creating buildings:", err);
+      console.error("ошибка:", err);
     }
   };
 
   useEffect(() => {
     login();
     createBuilding();
+    fetchUserBalance();
   }, []);
 
   return (

@@ -8,12 +8,15 @@ import cls from './City.module.css';
 import { BuyPopup } from '../BuyPopup';
 import { useDispatch, useSelector } from 'react-redux';
 import { userApi } from '@/Api/UserApi';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { setBuildings } from '@/store/Slice/citySlice';
 
 export const City = () => {
   const dispatch = useDispatch();
   const buildings = useSelector((state: any) => state.city.buildings);
+  const balance = useSelector((state: any) => state.user.balance);
+  const [selectedBuilding, setSelectedBuilding] = useState<any>(null); // Состояние для выбранного здания
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const fetchAllBuildings = async () => {
     try {
@@ -24,13 +27,28 @@ export const City = () => {
     }
   }
 
+  const handleBuyClick = (building: any) => {
+    setSelectedBuilding(building);
+    setIsPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+    setSelectedBuilding(null);
+  };
+
   useEffect(() => {
     fetchAllBuildings();
   }, [dispatch])
   return (
     <main className={classNames(cls.main, {}, [])}>
       <div className={classNames(cls.div, {}, [])}>
-        <BuyPopup isOpen={false} />
+        <BuyPopup
+          balance={balance}
+          onClose={handleClosePopup}
+          isOpen={isPopupOpen}
+          building={selectedBuilding}
+          />
         <UserInfo 
           visibleTitle={true} 
           title='HappyCiy' 
@@ -38,7 +56,10 @@ export const City = () => {
         <BackgroundCity />
         <CityLevel />
         <FinanceLevel />
-        <Business buildings={buildings} />
+        <Business
+          onBuyClick={handleBuyClick}
+          buildings={buildings} 
+        />
       </div>
     </main>
   );

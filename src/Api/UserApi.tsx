@@ -30,6 +30,20 @@ export class UserApi extends Api {
   getAllBuildings(): Promise<IBuildingData[]> {
     return this.request('/city/building/get_all', 'GET');
   }
+
+  buyBuilding(userId: number, buildingId: number): Promise<{ success: boolean; message: string }> {
+    return this.request(`/user/${userId}/buy_building`, 'POST', {
+      building_id: buildingId,
+    });
+  }
+
+  getUserBuildings(userId: number): Promise<IBuildingData[]> {
+    return this.request(`/user/${userId}/get_buildings`, 'GET');
+  }
+
+  getUserBalance(userId: number): Promise<{ balance: number }> {
+    return this.request(`/user/${userId}/balance`, 'GET');
+  }
 }
 
 export const userApi = new UserApi('http://localhost:8000', {
