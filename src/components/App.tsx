@@ -15,7 +15,7 @@ import { useEffect, useState, useRef } from 'react';
 import { IBuildingBlock, IUserInfoData } from '@/types';
 import { userApi } from '@/Api/UserApi';
 import { cityAdd } from './City/model/cityAdd';
-import { mockInitData } from '@/utils/mockData/mockData';
+import WebApp from '@twa-dev/sdk';
 
 export function App() {
   const lp = useLaunchParams();
@@ -23,12 +23,11 @@ export function App() {
   const dispatch = useDispatch();
   const [userCache, setUserCache] = useState<IUserInfoData | null>(null);
   const [buildingsCache, setBuildingsCache] = useState<IBuildingBlock[] | []>([]);
-  const [isInitialized, setIsInitialized] = useState(false);
 
   const checkUser = async (): Promise<IUserInfoData | null> => {
     if (userCache) return userCache;
 
-    const initData = mockInitData;
+    const initData = WebApp.initDataUnsafe;
     if (!initData?.user?.id) {
       console.error("User data is missing.");
       return null;
@@ -132,7 +131,6 @@ export function App() {
         await createBuilding(user);
         await fetchUserBalance(user);
         await fetchAllBuildings();
-        setIsInitialized(true);
       }
     };
 

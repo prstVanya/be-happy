@@ -5,7 +5,7 @@ import cls from './UserInfo.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUserInfoAction } from '@/store/Slice/userSlice';
 import { useEffect } from 'react';
-import { mockInitData } from '@/utils/mockData/mockData';
+import WebApp from '@twa-dev/sdk';
 
 interface IUserInfoData {
   title?: string;
@@ -24,7 +24,8 @@ export const UserInfo = ({
   }
   
   const fetchUserInfo = () => {
-    const initData = mockInitData;
+    const initData = WebApp.initDataUnsafe;
+    console.log(initData);
 
     if (initData && initData.user) {
       const user = initData.user;

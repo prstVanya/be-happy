@@ -6,11 +6,11 @@ import {
   IBuyBuildingResponse,
   IUserBalanceResponse, 
 } from "@/types";
-import { mockInitData } from "@/utils/mockData/mockData";
+import WebApp from '@twa-dev/sdk';
 
 export class UserApi extends Api {
   constructor(baseUrl: string, initData: string, options?: RequestInit) {
-    const token = JSON.stringify(initData);
+    const token = encodeURIComponent(initData);
 
     const headers = {
       ...options?.headers,
@@ -60,8 +60,8 @@ export class UserApi extends Api {
   }
 }
 
-const initData = mockInitData;
-console.log(initData);
+const initData = WebApp.initData;
+
 export const userApi = new UserApi('http://localhost:8000', initData, {
   headers: {
     'Content-Type': 'application/json',
