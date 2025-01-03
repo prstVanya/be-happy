@@ -1,5 +1,5 @@
 import { Api } from "./Api";
-import { IUserInfoData, IUserDetails, IBuildingData } from "@/types";
+import { IUserInfoData, IUserDetails, IBuildingData, IBuildingBlock, IBuyBuildingResponse } from "@/types";
 
 export class UserApi extends Api {
   constructor(baseUrl: string, options?: RequestInit) {
@@ -19,7 +19,7 @@ export class UserApi extends Api {
     return this.request(`/user/${id}`, 'GET');
   }
 
-  addBuilding(building: IBuildingData): Promise<IBuildingData> {
+  addBuilding(building: IBuildingBlock): Promise<IBuildingBlock> {
     return this.request('/city/building/add', 'POST', {
       name: building.name,
       income: building.income,
@@ -31,10 +31,12 @@ export class UserApi extends Api {
     return this.request('/city/building/get_all', 'GET');
   }
 
-  buyBuilding(userId: number, buildingId: number): Promise<{ success: boolean; message: string }> {
-    return this.request(`/user/${userId}/buy_building`, 'POST', {
-      building_id: buildingId,
-    });
+  buyBuilding(userId: number, buildingId: number): Promise<IBuyBuildingResponse> {
+    const queryParams = new URLSearchParams({
+      building_id: String(buildingId),
+    }).toString();
+  
+    return this.request(`/user/${userId}/buy_building?${queryParams}`, 'POST');
   }
 
   getUserBuildings(userId: number): Promise<IBuildingData[]> {

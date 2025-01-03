@@ -1,6 +1,6 @@
 export const mockInitData = {
   user: {
-    id: 14585,
+    id: 14888,
     first_name: "John",
     last_name: "Doe",
     username: "johndoe",

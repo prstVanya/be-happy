@@ -5,16 +5,20 @@ interface IButtonSelectData {
   className?: string;
   title?: string;
   isLight: boolean;
+  isSold: boolean;
   onClick?: () => void;
 }
 
-const ButtonSelect = ({ title, isLight, onClick }: IButtonSelectData) => {
+const ButtonSelect = ({ title, isLight, onClick, isSold }: IButtonSelectData) => {
   return (
     <button
-      className={classNames(cls.button, { [cls.light]: isLight }, [])}
+      className={classNames(cls.button, { 
+        [cls.light]: isLight,
+        [cls.active]: isSold,
+       }, [])}
       onClick={onClick}
     >
-      {title}
+      {!isSold ?title : 'Куплено'}
     </button>
   );
 };

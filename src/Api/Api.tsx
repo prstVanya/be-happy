@@ -39,6 +39,7 @@ export class Api {
     }).then((response) => this.handleResponse<T>(response));
   }
 
+
   put<T>(uri: string, data: object, method: ApiPostMethods = 'PUT'): Promise<T> {
     return fetch(this.baseUrl + uri, {
       ...this.options,

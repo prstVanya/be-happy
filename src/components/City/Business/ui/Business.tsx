@@ -6,21 +6,25 @@ import cls from './Business.module.css';
 interface IBusinessData {
   className?: string;
   buildings: Array<{
-    id: string;
+    id: number;
     image: string;
     name: string;
     income: number;
   }>
   onBuyClick: (building: any) => void;
+  userId: number;
 }
 
-export const Business = ({ className, buildings, onBuyClick }: IBusinessData) => {
+
+export const Business = ({ className, buildings, onBuyClick, userId }: IBusinessData) => {
   return (
     <section className={classNames(cls.business, {}, [className || ''])}>
       <div className={classNames(cls.container, {}, [])}>
         <h2 className={classNames(cls.title, {}, [])}>Бизнесы</h2>
         <ul className={classNames(cls.list, {}, [])}>
           {buildings.map((w: any) => {
+            const isSold = w.user_id === userId;
+
             return (
               <li key={w.id} className={classNames(cls.item, {}, [])}>
                 <img 
@@ -51,6 +55,7 @@ export const Business = ({ className, buildings, onBuyClick }: IBusinessData) =>
                     />
                   </div>
                   <ButtonSelect 
+                    isSold={isSold}
                     onClick={() => onBuyClick(w)} 
                     isLight={false} 
                     title='Купить' 

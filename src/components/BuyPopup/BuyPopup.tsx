@@ -9,21 +9,31 @@ import { PriceInfo } from './PriceInfo';
 interface IBuyPopupData {
   className?: string;
   isOpen: boolean;
-  onClose: () => void;
+  onClose: (evt: React.MouseEvent) => void;
   building: {
-    id: string;
+    id: number;
     image: string;
     name: string;
     income: number;
     cost: number;
   } | null;
   balance: number;
+  handleBuy: (building: { id: number }) => void;
 }
 
-export const BuyPopup = ({ className, isOpen, onClose, building, balance }: IBuyPopupData) => {
+export const BuyPopup = ({ 
+  className, isOpen, onClose, building, balance, handleBuy
+}: IBuyPopupData) => {
+
+  const handleSubmit = (evt: React.FormEvent) => {
+    evt.preventDefault();
+    if (building) {
+      handleBuy({ id: building.id });
+    }
+  }
   return (
     <div className={classNames(cls.popup, { [cls.open]: isOpen }, [className || ''])}>
-      <div className={classNames(cls.container, {}, [])}>
+      <form onSubmit={handleSubmit} className={classNames(cls.container, {}, [])}>
         <div className={classNames(cls.modul, {}, [])}>
         <h2 className={classNames(cls.heading, {}, [])}>{building?.name}</h2>
           <button
@@ -46,8 +56,8 @@ export const BuyPopup = ({ className, isOpen, onClose, building, balance }: IBuy
         <PriceInfo
           building={building}
         />
-        <ButtonSelect isLight={false} title='Купить' />
-      </div>
+        <ButtonSelect isSold={false} isLight={false} title='Купить' />
+      </form>
     </div>
   )
 }

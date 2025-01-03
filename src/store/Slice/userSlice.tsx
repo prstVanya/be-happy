@@ -19,18 +19,25 @@ const userSlice = createSlice({
   initialState: {
     info: getUserInfo(),
     balance: 0,
+    buildings: [],
   },
   reducers: {
     setUserInfoAction(state, action) {
       console.log('Данные для сохранения в Redux:', action.payload);
       state.info = { ...state.info, ...action.payload };
-      localStorage.setItem('userInfo', JSON.stringify(state.info)); // сохраняем в localStorage
+      localStorage.setItem('userInfo', JSON.stringify(state.info));
     },
     setUserBalanceAction(state, action) {
       state.balance = action.payload;
     },
+    setUserBuildingsAction(state, action) {
+      state.buildings = action.payload;
+      localStorage.setItem('userBuildings', JSON.stringify(state.buildings));
+    },
   },
 });
 
-export const { setUserInfoAction, setUserBalanceAction } = userSlice.actions;
+export const { 
+  setUserInfoAction, setUserBalanceAction, setUserBuildingsAction 
+} = userSlice.actions;
 export default userSlice.reducer;

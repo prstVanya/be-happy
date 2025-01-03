@@ -15,6 +15,11 @@
   grid-column: 8 / 13;
 }
 
+.button.active {
+  background-color: var(--text-color-light);
+  color: var(--text-color-dark);
+}
+
 .button.light {
   background-color: var(--text-color-light);
   color: var(--text-color-dark);
