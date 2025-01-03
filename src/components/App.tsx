@@ -15,7 +15,7 @@ import { useEffect, useState, useRef } from 'react';
 import { IBuildingBlock, IUserInfoData } from '@/types';
 import { userApi } from '@/Api/UserApi';
 import { cityAdd } from './City/model/cityAdd';
-import WebApp from '@twa-dev/sdk';
+import { mockInitData } from '@/utils/mockData/mockData';
 
 export function App() {
   const lp = useLaunchParams();
@@ -28,7 +28,7 @@ export function App() {
   const checkUser = async (): Promise<IUserInfoData | null> => {
     if (userCache) return userCache;
 
-    const initData = WebApp.initDataUnsafe;
+    const initData = mockInitData;
     if (!initData?.user?.id) {
       console.error("User data is missing.");
       return null;

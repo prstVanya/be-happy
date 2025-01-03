@@ -6,13 +6,15 @@ import {
   IBuyBuildingResponse,
   IUserBalanceResponse, 
 } from "@/types";
-import WebApp from "@twa-dev/sdk";
+import { mockInitData } from "@/utils/mockData/mockData";
 
 export class UserApi extends Api {
   constructor(baseUrl: string, initData: string, options?: RequestInit) {
+    const token = JSON.stringify(initData);
+
     const headers = {
       ...options?.headers,
-      'Authorization': `Bearer user=${encodeURIComponent(initData)}`,
+      'Authorization': `Bearer ${token}`,
     };
     super(baseUrl, { ...options, headers });
   }
@@ -58,7 +60,7 @@ export class UserApi extends Api {
   }
 }
 
-const initData = WebApp.initDataUnsafe;
+const initData = mockInitData;
 console.log(initData);
 export const userApi = new UserApi('http://localhost:8000', initData, {
   headers: {
