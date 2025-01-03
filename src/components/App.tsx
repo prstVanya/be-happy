@@ -77,8 +77,14 @@ const fetchUserBalance = async (user: IUserInfoData) => {
   try {
     if (user) {
       const userId = user.id;
+      console.log(userId)
       const response = await userApi.getUserBalance(userId);
-      dispatch(setUserBalanceAction(response.balance));
+      console.log(response);
+      dispatch(setUserBalanceAction({
+        user_id: user.id,
+        balance: response.balance,
+        income: response.income,
+      }));
     } else {
       console.error("пользователя нет.");
     }

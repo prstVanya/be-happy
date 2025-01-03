@@ -16,8 +16,8 @@
 }
 
 .button.active {
-  background-color: var(--text-color-light);
-  color: var(--text-color-dark);
+  background-color: var(--bg-secondary);
+  color: var(--text-color-premium);
 }
 
 .button.light {

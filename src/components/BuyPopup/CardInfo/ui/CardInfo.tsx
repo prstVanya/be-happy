@@ -25,7 +25,7 @@ export const CardInfo = ({ className, balance }: ICardInfo) => {
       <div className={classNames(cls.card, {}, [])}>
         <p className={classNames(cls.subtitle, {}, [])}>Текущий баланс</p>
         <div className={classNames(cls.info, {}, [])}>
-          <p className={classNames(cls.bl, {}, [])}>{balance.toLocaleString()}</p>
+          <p className={classNames(cls.bl, {}, [])}>{balance.balance.toLocaleString()}</p>
           <img 
             className={classNames(cls.icon, {}, [])}
             alt='#'

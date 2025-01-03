@@ -4,9 +4,10 @@ import cls from './CityLevel.module.css';
 
 interface ICityLevelData {
   className?: string;
+  income: number;
 }
 
-export const CityLevel = ({ className }: ICityLevelData) => {
+export const CityLevel = ({ className, income }: ICityLevelData) => {
   return (
     <section className={classNames(cls.level, {}, [className || ''])}>
       <div className={classNames(cls.container, {}, [])}>
@@ -26,7 +27,7 @@ export const CityLevel = ({ className }: ICityLevelData) => {
           <ul className={classNames(cls.bonus, {}, [])}>
             <li className={classNames(cls.item, {}, [])}>
               <p className={classNames(cls.heading, {}, [])}>Доход в день:</p>
-              <h3 className={classNames(cls.subtitle, {}, [])}>+500</h3>
+              <h3 className={classNames(cls.subtitle, {}, [])}>{income}</h3>
             </li>
             <li className={classNames(cls.item, {}, [])}>
               <p className={classNames(cls.heading, {}, [])}>Бонус к клику:</p>

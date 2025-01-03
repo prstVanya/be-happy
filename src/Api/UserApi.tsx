@@ -1,5 +1,12 @@
 import { Api } from "./Api";
-import { IUserInfoData, IUserDetails, IBuildingData, IBuildingBlock, IBuyBuildingResponse } from "@/types";
+import { 
+  IUserInfoData,
+  IUserDetails, 
+  IBuildingData, 
+  IBuildingBlock, 
+  IBuyBuildingResponse,
+  IUserBalanceResponse, 
+} from "@/types";
 
 export class UserApi extends Api {
   constructor(baseUrl: string, options?: RequestInit) {
@@ -45,6 +52,12 @@ export class UserApi extends Api {
 
   getUserBalance(userId: number): Promise<{ balance: number }> {
     return this.request(`/user/${userId}/balance`, 'GET');
+  }
+
+  earnDaily(userId: number): Promise<IUserBalanceResponse> {
+    return this.request(`/user/${userId}/earn_daily`, 'POST', {
+      user_id: userId,
+    });
   }
 }
 
