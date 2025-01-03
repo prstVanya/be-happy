@@ -1,41 +1,7 @@
-.business {
-  width: 100%;
-  margin: 0;
-}
-
-.container {
-  width: 92.307%;
-  margin: 30px auto 0;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  text-align: center;
-}
-
-.title {
-  font-size: 20px;
-  line-height: 24px;
-  font-family: var(--font-inter-medium);
-  color: var(--text-color-premium);
-  margin: 0;
-  padding: 0;
-}
-
-.list {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-  margin-bottom: 150px;
-}
-
 .item {
   display: flex;
   align-items: center;
   padding: 15px;
-  gap: 12px;
   border-radius: 15px;
   width: 100%;
   background-color: var(--bg-secondary);
@@ -50,7 +16,7 @@
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  margin-right: 60px;
+  margin-right: 10px;
 }
 
 .heading {
@@ -88,7 +54,7 @@
   align-items: center;
   gap: 8px;
   margin: 0;
-  width: 35%;
+  width: 45%;
 }
 
 .buy {
@@ -96,4 +62,3 @@
   gap: 6px;
   align-items: center;
 }
-

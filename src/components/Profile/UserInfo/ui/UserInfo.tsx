@@ -36,10 +36,8 @@ export const UserInfo = ({
   };
 
   useEffect(() => {
-    if (!userInfo) {
-      fetchUserInfo();
-    }
-  }, [userInfo, dispatch]);
+    fetchUserInfo();
+  }, [dispatch]);
 
   return (
     <div className={classNames(cls.info, {}, [])}>

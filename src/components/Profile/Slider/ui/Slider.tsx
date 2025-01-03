@@ -12,6 +12,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
 
 interface ISliderData {
   className?: string;
@@ -19,6 +20,7 @@ interface ISliderData {
 }
 
 export const SliderData = ({ className, onOpen }: ISliderData) => {
+  const balance = useSelector((state: any) => state.user.balance);
   const [currentSlide, setCurrentSlide] = useState(0);
   const isLastSlide = currentSlide === 2;
   const isFirstSlide = currentSlide === 0;
@@ -55,7 +57,7 @@ export const SliderData = ({ className, onOpen }: ISliderData) => {
             <div className={classNames(cls.imageWrap, {}, [])}>
               <div className={classNames(cls.cardInfoWrap, {}, [])}>
                 <div className={classNames(cls.cardInfo, {}, [])}>
-                  <p className={classNames(cls.money, {}, [])}>1 000 000</p>
+                  <p className={classNames(cls.money, {}, [])}>{balance.toLocaleString()}</p>
                   <img 
                     className={classNames(cls.ic, {}, [])}
                     alt='#'
@@ -93,7 +95,7 @@ export const SliderData = ({ className, onOpen }: ISliderData) => {
               <img
                 className={classNames(cls.image, {}, [])}
                 alt='карточка'
-                src={CardTwo}
+                src={CardThree}
               />
             </div>
           </button>
@@ -116,7 +118,7 @@ export const SliderData = ({ className, onOpen }: ISliderData) => {
               <img
                 className={classNames(cls.image, {}, [])}
                 alt='карточка'
-                src={CardThree}
+                src={CardTwo}
               />
             </div>
           </button>
