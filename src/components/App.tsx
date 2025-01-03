@@ -22,7 +22,59 @@ export function App() {
   const isDark = useSignal(miniApp.isDark);
   const dispatch = useDispatch();
 
+  const checkUser = async (): Promise<IUserInfoData | null> => {
+    const initData = mockInitData;
+
+    if (!initData || !initData.user || !initData.user.id) {
+      console.error("No user data found in initialization parameters.");
+      return null;
+    }
+
+    const user: IUserInfoData = {
+      id: Number(initData.user.id),
+      first_name: initData.user.first_name || '',
+      last_name: initData.user.last_name || '',
+      username: initData.user.username || '',
+    };
+
+    try {
+      const existingUser = await userApi.getUserById(user.id);
+
+      if (existingUser?.user) {
+        dispatch(setUserInfoAction(existingUser.user));
+        return existingUser.user;
+      }
+    } catch (err) {
+      console.warn("User not found, creating a new user...");
+
+      try {
+        const newUser = await userApi.addUser(user);
+        dispatch(setUserInfoAction(newUser));
+        return newUser;
+      } catch (addUserErr) {
+        console.error("Error creating a new user:", addUserErr);
+        return null;
+      }
+    }
+
+    return null;
+  };
+
+  const login = async () => {
+    const user = await checkUser();
+    if (user) {
+      localStorage.setItem('authorization', user.id.toString());
+    }
+  };
+
   const createBuilding = async () => {
+    const user = await checkUser();
+
+    if (!user) {
+      console.error("Cannot create buildings, user does not exist.");
+      return;
+    }
+
     try {
       for (const building of cityAdd) {
         const createdBuilding = await userApi.addBuilding({
@@ -30,7 +82,7 @@ export function App() {
           income: building.income,
           cost: building.cost,
         });
-  
+
         dispatch(addBuilding({
           income: createdBuilding.income,
           cost: createdBuilding.cost,
@@ -39,28 +91,7 @@ export function App() {
         }));
       }
     } catch (err) {
-      console.error("Ошибка при создании здания:", err);
-    }
-  };
-
-  const login = async () => {
-    const initData = mockInitData;
-  
-    if (initData && initData.user && initData.user.id) {
-      const user: IUserInfoData = {
-        id: Number(initData.user.id),
-        first_name: initData.user.first_name || '',
-        last_name: initData.user.last_name || '',
-        username: initData.user.username || '',
-      };
-  
-      try {
-        const createUser = await userApi.addUser(user);
-        dispatch(setUserInfoAction(createUser));
-        localStorage.setItem('authorization', user.id.toString());
-      } catch (err) {
-        console.error('Error during login:', err);
-      }
+      console.error("Error while creating buildings:", err);
     }
   };
 
