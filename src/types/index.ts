@@ -1,8 +1,11 @@
 export interface IUserInfoData {
-  id: number;
-  first_name: string | '';
-  last_name: string | '';
-  username: string | '';
+  id: number,
+  first_name: string;
+  last_name: string;
+  username: string;
+  balance: number;
+  income: number;
+  level: number;
 }
 
 export interface IUserDetails {
@@ -32,6 +35,7 @@ export interface IBuyBuildingResponse {
   user_id: number;
   balance: number;
   income: number;
+  level: number;
 }
 
 export interface ICityAdd {
@@ -50,6 +54,7 @@ export interface IUserBalanceResponse {
   user_id: number;
   balance: number;
   income: number;
+  level: number;
 }
 
 export interface IUserBalance {

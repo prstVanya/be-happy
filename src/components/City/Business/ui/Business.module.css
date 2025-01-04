@@ -41,6 +41,10 @@
   background-color: var(--bg-secondary);
 }
 
+.item.dark {
+  opacity: .7;
+}
+
 .svg {
   margin-right: 10px;
 }

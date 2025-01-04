@@ -5,16 +5,17 @@ import cls from './CityLevel.module.css';
 interface ICityLevelData {
   className?: string;
   income: number;
+  level: number;
 }
 
-export const CityLevel = ({ className, income }: ICityLevelData) => {
+export const CityLevel = ({ className, income, level }: ICityLevelData) => {
   return (
     <section className={classNames(cls.level, {}, [className || ''])}>
       <div className={classNames(cls.container, {}, [])}>
         <div className={classNames(cls.mainInfo, {}, [])}>
           <div className={classNames(cls.mylevel, {}, [])}>
             <h2 className={classNames(cls.title, {}, [])}>Мой квартал</h2>
-            <p className={classNames(cls.lev, {}, [])}>Ур. 0</p>
+            <p className={classNames(cls.lev, {}, [])}>{`Ур. ${level}`}</p>
           </div>
           <button className={classNames(cls.button, {}, [])}>
             <img

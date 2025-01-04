@@ -12,10 +12,10 @@ import { addBuilding, setBuildings } from '@/store/Slice/citySlice';
 import '@/vendor/index.css';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState, useRef } from 'react';
-import { mockInitData } from '@/utils/mockData/mockData';
-import { IBuildingBlock, IUserInfoData } from '@/types';
+import { IBuildingBlock, IUserInfoData, IUserBalanceResponse } from '@/types';
 import { userApi } from '@/Api/UserApi';
 import { cityAdd } from './City/model/cityAdd';
+import WebApp from '@twa-dev/sdk';
 
 export function App() {
   const lp = useLaunchParams();
@@ -23,139 +23,127 @@ export function App() {
   const dispatch = useDispatch();
   const [userCache, setUserCache] = useState<IUserInfoData | null>(null);
   const [buildingsCache, setBuildingsCache] = useState<IBuildingBlock[] | []>([]);
-  const [isInitialized, setIsInitialized] = useState(false);
 
-const checkUser = async (): Promise<IUserInfoData | null> => {
-  if (userCache) return userCache; 
-  const initData = mockInitData;
+  const checkUser = async (): Promise<IUserInfoData | null> => {
+    if (userCache) return userCache;
 
-  if (!initData || !initData.user || !initData.user.id) {
-    console.error("пользователя нет.");
-    return null;
-  }
-
-  const user: IUserInfoData = {
-    id: Number(initData.user.id),
-    first_name: initData.user.first_name || '',
-    last_name: initData.user.last_name || '',
-    username: initData.user.username || '',
-  };
-
-  try {
-    const existingUser = await userApi.getUserById(user.id);
-
-    if (existingUser?.user) {
-      dispatch(setUserInfoAction(existingUser.user));
-      setUserCache(existingUser.user); 
-      return existingUser.user;
-    }
-  } catch (err) {
-    console.warn("создание пользователя");
-
-    try {
-      const newUser = await userApi.addUser(user);
-      dispatch(setUserInfoAction(newUser));
-      setUserCache(newUser); 
-      return newUser;
-    } catch (addUserErr) {
-      console.error("ошибка:", addUserErr);
+    const initData = WebApp.initDataUnsafe;
+    if (!initData?.user?.id) {
+      console.error("User data is missing.");
       return null;
     }
-  }
 
-  return null;
-};
+    try {
+      const { user: existingUser } = await userApi.getUserById();
+      dispatch(setUserInfoAction(existingUser));
+      setUserCache(existingUser);
+      return existingUser;
+    } catch (err) {
+      console.warn("User not found, creating new user.");
+      
+      try {
+        const newUser = await userApi.addUser();
+        dispatch(setUserInfoAction(newUser));
+        setUserCache(newUser);
+        return newUser;
+      } catch (addUserErr) {
+        console.error("Error creating new user:", addUserErr);
+        return null;
+      }
+    }
+  };
 
-const login = async () => {
-  const user = await checkUser();
-  if (user) {
-    localStorage.setItem('authorization', user.id.toString());
-  }
-};
-
-const fetchUserBalance = async (user: IUserInfoData) => {
-  try {
+  const login = async () => {
+    const user = await checkUser();
     if (user) {
-      const userId = user.id;
-      console.log(userId)
-      const response = await userApi.getUserBalance(userId);
-      console.log(response);
-      dispatch(setUserBalanceAction({
+      localStorage.setItem('authorization', user.id.toString());
+    }
+  };
+
+  const fetchUserBalance = async (user: IUserInfoData) => {
+    if (!user) {
+      console.error("User data is missing.");
+      return;
+    }
+    
+    try {
+      const response = await userApi.getUserBalance();
+      const userBalanceData: IUserBalanceResponse = {
         user_id: user.id,
         balance: response.balance,
         income: response.income,
-      }));
-    } else {
-      console.error("пользователя нет.");
-    }
-  } catch (error) {
-    console.error("ошибка:", error);
-  }
-};
+        level: response.level,
+      };
 
-const createBuilding = async (user: IUserInfoData) => {
-  if (!user) {
-    console.error("пользователя нет");
-    return;
-  }
-  try {
-    for (const building of cityAdd) {
-      const createdBuilding = await userApi.addBuilding({
-        name: building.name,
-        income: building.income,
-        cost: building.cost,
-      });
-
-      dispatch(addBuilding({
-        income: createdBuilding.income,
-        cost: createdBuilding.cost,
-        name: building.name,
-        image: building.image,
-      }));
-      setBuildingsCache(prev => [...prev, createdBuilding]); 
-    }
-  } catch (err) {
-    console.error("ошибка:", err);
-  }
-};
-
-const fetchAllBuildings = async () => {
-  if (buildingsCache.length > 0) return; 
-
-  try {
-    const data = await userApi.getAllBuildings();
-    dispatch(setBuildings(data));
-  } catch (err) {
-    console.error('Ошибка при загрузке зданий:', err);
-  }
-};
-
-type EffectCallback = () => void;
-const useEffectOnce = (callback: EffectCallback) => {
-  const hasExecuted = useRef(false);
-
-  useEffect(() => {
-    if (hasExecuted.current) return;
-    hasExecuted.current = true;
-    callback();
-  }, [callback]);
-};
-
-useEffectOnce(() => {
-  const initUser = async () => {
-    const user = await checkUser();
-    
-    if (user) {
-      await login();
-      await createBuilding(user);
-      await fetchUserBalance(user);
-      await fetchAllBuildings();
-      setIsInitialized(true);
+      dispatch(setUserBalanceAction(userBalanceData));
+      console.log(userBalanceData);
+    } catch (error) {
+      console.error("Error fetching user balance:", error);
     }
   };
 
-  initUser();
-});
+  const createBuilding = async (user: IUserInfoData) => {
+    if (!user) {
+      console.error("пользователя нет");
+      return;
+    }
+    try {
+      for (const building of cityAdd) {
+        const createdBuilding = await userApi.addBuilding({
+          name: building.name,
+          income: building.income,
+          cost: building.cost,
+        });
+  
+        dispatch(addBuilding({
+          income: createdBuilding.income,
+          cost: createdBuilding.cost,
+          name: building.name,
+          image: building.image,
+        }));
+        setBuildingsCache(prev => [...prev, createdBuilding]); 
+      }
+    } catch (err) {
+      console.error("ошибка:", err);
+    }
+  };
+
+  // Fetch all available buildings.
+  const fetchAllBuildings = async () => {
+    if (buildingsCache.length > 0) return;
+
+    try {
+      const buildings = await userApi.getAllBuildings();
+      dispatch(setBuildings(buildings));
+    } catch (err) {
+      console.error("Error loading buildings:", err);
+    }
+  };
+
+  type EffectCallback = () => void;
+  const useEffectOnce = (callback: EffectCallback) => {
+    const hasExecuted = useRef(false);
+    useEffect(() => {
+      if (hasExecuted.current) return;
+      hasExecuted.current = true;
+      callback();
+    }, [callback]);
+  };
+
+  // Use effect to initialize user and data.
+  useEffectOnce(() => {
+    const initUser = async () => {
+      const user = await checkUser();
+      if (user) {
+        await login();
+        await createBuilding(user);
+        await fetchUserBalance(user);
+        await fetchAllBuildings();
+      }
+    };
+
+    initUser();
+  });
 
   return (
     <AppRoot
