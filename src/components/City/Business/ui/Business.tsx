@@ -56,8 +56,13 @@ export const Business = ({ className, buildings, onBuyClick, userId }: IBusiness
                   </div>
                   <ButtonSelect 
                     isSold={isSold}
-                    onClick={() => onBuyClick(w)} 
-                    isLight={false} 
+                    onClick={() => {
+                      if (!isSold) {
+                        onBuyClick(w);
+                      }
+                    }}
+                    isLight={false}
+                    isDisabled={isSold}
                     title='Купить' 
                   />
                 </div>

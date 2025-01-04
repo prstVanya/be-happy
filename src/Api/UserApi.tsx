@@ -6,15 +6,13 @@ import {
   IBuyBuildingResponse,
   IUserBalanceResponse, 
 } from "@/types";
-import WebApp from '@twa-dev/sdk';
+import WebApp from "@twa-dev/sdk";
 
 export class UserApi extends Api {
   constructor(baseUrl: string, initData: string, options?: RequestInit) {
-    const token = encodeURIComponent(initData);
-
     const headers = {
       ...options?.headers,
-      'Authorization': `Bearer ${token}`,
+      'Authorization': `Bearer ${initData}`,
     };
     super(baseUrl, { ...options, headers });
   }
@@ -51,8 +49,8 @@ export class UserApi extends Api {
     return this.request(`/user/get_buildings`, 'GET');
   }
 
-  getUserBalance(userId: number): Promise<{ balance: number }> {
-    return this.request(`/user/${userId}/balance`, 'GET');
+  getUserBalance(): Promise<IUserBalanceResponse> {
+    return this.request(`/user/balance`, 'GET');
   }
 
   earnDaily(): Promise<IUserBalanceResponse> {
@@ -61,7 +59,6 @@ export class UserApi extends Api {
 }
 
 const initData = WebApp.initData;
-
 export const userApi = new UserApi('http://localhost:8000', initData, {
   headers: {
     'Content-Type': 'application/json',

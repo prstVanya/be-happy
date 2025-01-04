@@ -3,9 +3,11 @@ import AvatarImage from '@/assets/images/avatar.jpeg';
 import CopyIconSvg from '@/assets/images/icons/copy.svg';
 import cls from './UserInfo.module.css';
 import { useSelector, useDispatch } from 'react-redux';
+import { useState } from 'react';
 import { setUserInfoAction } from '@/store/Slice/userSlice';
 import { useEffect } from 'react';
 import WebApp from '@twa-dev/sdk';
+import { InfoPopup } from '@/components/InfoPopup';
 
 interface IUserInfoData {
   title?: string;
@@ -17,15 +19,22 @@ export const UserInfo = ({
 }: IUserInfoData) => {
   const userInfo = useSelector((state: any) => state.user.info);
   const dispatch = useDispatch();
+  const [isInfoPopup, setIsInfoPopup] = useState(false);
+  const [isTextInfoPopup, setIsTextInfoPopup] = useState('');
 
   const handleClickToCopy = () => {
     const id = userInfo?.id;
     navigator.clipboard.writeText(id);
+    setIsInfoPopup(true);
+    setIsTextInfoPopup('Id скопирован!');
+    setTimeout(() => {
+      setIsInfoPopup(false);
+      setIsTextInfoPopup('');
+    }, 4000);
   }
   
   const fetchUserInfo = () => {
     const initData = WebApp.initDataUnsafe;
-    console.log(initData);
 
     if (initData && initData.user) {
       const user = initData.user;
@@ -43,6 +52,7 @@ export const UserInfo = ({
   return (
     <div className={classNames(cls.info, {}, [])}>
       <div className={classNames(cls.mainInfo)}>
+        <InfoPopup isOpen={isInfoPopup} title={isTextInfoPopup} />
         <img
           className={classNames(cls.avatar, {}, [])}
           alt='avatar'

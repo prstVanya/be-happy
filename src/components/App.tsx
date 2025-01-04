@@ -12,7 +12,7 @@ import { addBuilding, setBuildings } from '@/store/Slice/citySlice';
 import '@/vendor/index.css';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState, useRef } from 'react';
-import { IBuildingBlock, IUserInfoData } from '@/types';
+import { IBuildingBlock, IUserInfoData, IUserBalanceResponse } from '@/types';
 import { userApi } from '@/Api/UserApi';
 import { cityAdd } from './City/model/cityAdd';
 import WebApp from '@twa-dev/sdk';
@@ -67,8 +67,16 @@ export function App() {
     }
     
     try {
-      const response = await userApi.getUserBalance(user.id);
-      dispatch(setUserBalanceAction({ user_id: user.id, balance: response.balance }));
+      const response = await userApi.getUserBalance();
+      const userBalanceData: IUserBalanceResponse = {
+        user_id: user.id,
+        balance: response.balance,
+        income: response.income,
+        level: response.level,
+      };
+
+      dispatch(setUserBalanceAction(userBalanceData));
+      console.log(userBalanceData);
     } catch (error) {
       console.error("Error fetching user balance:", error);
     }

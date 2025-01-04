@@ -10,7 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userApi } from '@/Api/UserApi';
 import React, { useEffect, useState } from 'react';
 import { setUserBuildingsAction, setUserBalanceAction } from '@/store/Slice/userSlice';
-import { IBuilding, IBuildingData, IUserInfoData } from '@/types';
+import { IBuilding, IBuildingData } from '@/types';
+import { InfoPopup } from '../InfoPopup';
 
 export const City = () => {
   const dispatch = useDispatch();
@@ -20,10 +21,12 @@ export const City = () => {
   const [selectedBuilding, setSelectedBuilding] = useState<IBuilding | null>(null);
   const [userBuilding, setUserBuilding] = useState<IBuildingData[]>([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isInfoPopup, setIsInfoPopup] = useState(false);
+  const [isTextInfoPopup, setIsTextInfoPopup] = useState('');
 
-  const fetchUserBuildings = async (user: IUserInfoData): Promise<IBuildingData[]> => {
+  const fetchUserBuildings = async (): Promise<IBuildingData[]> => {
     try {
-      const userBuildingsData = await userApi.getUserBuildings(user.id);
+      const userBuildingsData = await userApi.getUserBuildings();
       return userBuildingsData || [];
     } catch (err) {
       console.error("Ошибка при загрузке зданий пользователя:", err);
@@ -48,16 +51,18 @@ export const City = () => {
         console.error('Ошибка: неверные значения для стоимости или дохода здания');
         return;
       }
-      const result = await userApi.buyBuilding(user.id, building.id);
+      const result = await userApi.buyBuilding(building.id);
       if (result.user_id) {
         const updatedBalance = balance.balance - buildingCost;
-        const updatedIncome = balance.income + buildingIncome;
+        const updatedIncome = balance.income + buildingIncome * balance.level * 1.1;
+        const level = balance.level + 1;
         dispatch(setUserBalanceAction({
           user_id: user.id,
           balance: updatedBalance,
           income: updatedIncome,
+          level: level,
         }));
-        const updatedBuildings = await fetchUserBuildings(user);
+        const updatedBuildings = await fetchUserBuildings();
         setUserBuilding(updatedBuildings); 
         dispatch(setUserBuildingsAction(updatedBuildings));
       } else {
@@ -69,13 +74,13 @@ export const City = () => {
   };
 
   const loadDataBuildings = async () => {
-    const building = await fetchUserBuildings(user);
+    const building = await fetchUserBuildings();
     setUserBuilding(building);
   }
 
   const earnDailyReward = async () => {
     try {
-      const result = await userApi.earnDaily(user.id);
+      const result = await userApi.earnDaily();
       if (result.user_id && result.balance) {
         const updatedBalance = balance.balance + result.balance;
 
@@ -84,10 +89,32 @@ export const City = () => {
           balance: updatedBalance,
           income: balance.income,
         }));
+        setIsTextInfoPopup('Награда собрана!');
+        setIsInfoPopup(true);
+
+      // Закрыть попап через 4 секунды
+        setTimeout(() => {
+          setIsInfoPopup(false);
+          setIsTextInfoPopup('');
+        }, 4000);
+      } else {
+
+        setIsTextInfoPopup('Награда собрана!');
+        setIsInfoPopup(true);
+        setTimeout(() => {
+          setIsInfoPopup(false);
+          setIsTextInfoPopup('');
+        }, 4000);
       }
 
     } catch (err) {
       console.log(err);
+      setIsTextInfoPopup(`Ошибка ${err}`);
+      setIsInfoPopup(true);
+      setTimeout(() => {
+        setIsInfoPopup(false);
+        setIsTextInfoPopup('');
+      }, 4000);
     }
   }
 
@@ -118,6 +145,7 @@ export const City = () => {
   return (
     <main className={classNames(cls.main, {}, [])}>
       <div className={classNames(cls.div, {}, [])}>
+        <InfoPopup isOpen={isInfoPopup} title={isTextInfoPopup} />
         <BuyPopup
           handleBuy={buyBuildingThunk}
           balance={balance}
@@ -131,9 +159,11 @@ export const City = () => {
         />
         <BackgroundCity />
         <CityLevel
+          level={balance.level}
           income={balance.income}
         />
         <FinanceLevel
+          level={balance.level}
           onSubmit={earnDailyReward}
         />
         <Business

@@ -7,9 +7,10 @@ interface IButtonSelectData {
   isLight: boolean;
   isSold: boolean;
   onClick?: () => void;
+  isDisabled: boolean;
 }
 
-const ButtonSelect = ({ title, isLight, onClick, isSold }: IButtonSelectData) => {
+const ButtonSelect = ({ title, isLight, onClick, isSold, isDisabled }: IButtonSelectData) => {
   return (
     <button
       className={classNames(cls.button, { 
@@ -17,6 +18,7 @@ const ButtonSelect = ({ title, isLight, onClick, isSold }: IButtonSelectData) =>
         [cls.active]: isSold,
        }, [])}
       onClick={onClick}
+      disabled={isDisabled}
     >
       {!isSold ?title : 'Куплено'}
     </button>
