@@ -56,7 +56,7 @@ export const BuyPopup = ({
         <PriceInfo
           building={building}
         />
-        <ButtonSelect isSold={false} isLight={false} title='Купить' />
+        <ButtonSelect isDisabled={false} isSold={false} isLight={false} title='Купить' />
       </form>
     </div>
   )

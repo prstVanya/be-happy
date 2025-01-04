@@ -7,6 +7,7 @@ import { StageSection } from './StagesSection';
 import { useState } from 'react';
 import cls from './Profile.module.css';
 import { PopupInfo } from '../PopupInfo';
+import { Referal } from './Referal';
 
 export const Profile = () => {
   const [popup, setPopup] = useState<boolean>(false);
@@ -30,6 +31,7 @@ export const Profile = () => {
           onOpen={handleOpenPopup}
         />
         <PromoCodeSection />
+        <Referal />
         <StageSection />
       </div>
     </main>

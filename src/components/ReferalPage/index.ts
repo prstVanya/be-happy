@@ -1,0 +1,1 @@
+export { ReferalPage } from './ReferalPage';

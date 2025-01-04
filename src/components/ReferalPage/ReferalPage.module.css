@@ -1,0 +1,11 @@
+.main {
+  min-height: 100vh;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  gap: 30px;
+  margin-bottom: 50px;
+}
