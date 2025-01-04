@@ -122,11 +122,18 @@ export const City = () => {
     loadDataBuildings();
   }, []);
 
-  const filteredBuildings = buildings.map((building: any) => {
+  const filteredBuildings = buildings.map((building: any, index: number) => {
+    const levelRequirement = index + 1; // Уровень, необходимый для доступа к зданию
+    const isAccessible = balance.level >= levelRequirement; // Доступность здания
     const matchingUserBuilding = userBuilding.find(
       (userBuilding: any) => userBuilding.building_id === building.id
     );
-    return matchingUserBuilding ? { ...building, ...matchingUserBuilding } : building;
+    return {
+      ...building,
+      ...matchingUserBuilding,
+      levelRequirement,
+      isAccessible,
+    };
   });
 
   const handleBuyClick = (building: any) => {

@@ -10,6 +10,8 @@ interface IBusinessData {
     image: string;
     name: string;
     income: number;
+    levelRequirement: number;
+    isAccessible: boolean;
   }>
   onBuyClick: (building: any) => void;
   userId: number;
@@ -24,9 +26,10 @@ export const Business = ({ className, buildings, onBuyClick, userId }: IBusiness
         <ul className={classNames(cls.list, {}, [])}>
           {buildings.map((w: any) => {
             const isSold = w.user_id === userId;
+            const isLevelTooLow = !w.isAccessible;
 
             return (
-              <li key={w.id} className={classNames(cls.item, {}, [])}>
+              <li key={w.id} className={classNames(cls.item, {[cls.dark]: isLevelTooLow}, [])}>
                 <img 
                   className={classNames(cls.image, {}, [])}
                   alt='#'
@@ -57,7 +60,7 @@ export const Business = ({ className, buildings, onBuyClick, userId }: IBusiness
                   <ButtonSelect 
                     isSold={isSold}
                     onClick={() => {
-                      if (!isSold) {
+                      if (!isSold && w.isAccessible) {
                         onBuyClick(w);
                       }
                     }}
