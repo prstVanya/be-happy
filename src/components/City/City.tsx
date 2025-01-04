@@ -92,7 +92,6 @@ export const City = () => {
         setIsTextInfoPopup('Награда собрана!');
         setIsInfoPopup(true);
 
-      // Закрыть попап через 4 секунды
         setTimeout(() => {
           setIsInfoPopup(false);
           setIsTextInfoPopup('');
@@ -123,8 +122,8 @@ export const City = () => {
   }, []);
 
   const filteredBuildings = buildings.map((building: any, index: number) => {
-    const levelRequirement = index + 1; // Уровень, необходимый для доступа к зданию
-    const isAccessible = balance.level >= levelRequirement; // Доступность здания
+    const levelRequirement = index + 1;
+    const isAccessible = balance.level >= levelRequirement;
     const matchingUserBuilding = userBuilding.find(
       (userBuilding: any) => userBuilding.building_id === building.id
     );
