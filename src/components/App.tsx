@@ -93,6 +93,7 @@ export function App() {
           name: building.name,
           income: building.income,
           cost: building.cost,
+          icon_url: building.image || '',
         });
   
         dispatch(addBuilding({

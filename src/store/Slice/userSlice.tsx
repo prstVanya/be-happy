@@ -15,6 +15,19 @@ function getUserInfo(){
   return obj
 }
 
+function getDailyReward() {
+  try {
+    const _dailyReward = localStorage.getItem('dailyReward');
+    if (_dailyReward) {
+      return JSON.parse(_dailyReward);
+    }
+    return 0;
+  } catch (err) {
+    console.error('Error retrieving dailyReward:', err instanceof Error ? err.message : err);
+    return 0;
+  }
+}
+
 const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -26,6 +39,8 @@ const userSlice = createSlice({
     } as IUserBalanceResponse,
     buildings: [],
     referrals: [] as string[],
+    timer: 0,
+    dailyReward: getDailyReward(),
   },
   reducers: {
     setUserInfoAction(state, action) {
@@ -47,6 +62,14 @@ const userSlice = createSlice({
         state.referrals.push(action.payload);
       }
     },
+    setTimerAction(state, action) {
+      state.timer = action.payload;
+    },
+    setDailyRewardAction(state, action) {
+      console.log('Данные для сохранения dailyReward:', action.payload);
+      state.dailyReward = action.payload;
+      localStorage.setItem('dailyReward', JSON.stringify(state.dailyReward));
+    }
   },
 });
 
@@ -55,5 +78,7 @@ export const {
   setUserBalanceAction, 
   setUserBuildingsAction,
   setUserReferralAction,
+  setTimerAction,
+  setDailyRewardAction,
 } = userSlice.actions;
 export default userSlice.reducer;

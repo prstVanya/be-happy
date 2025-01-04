@@ -30,6 +30,7 @@ export class UserApi extends Api {
       name: building.name,
       income: building.income,
       cost: building.cost,
+      icon_url: building.icon_url,
     });
   }
 
@@ -55,6 +56,10 @@ export class UserApi extends Api {
 
   earnDaily(): Promise<IUserBalanceResponse> {
     return this.request(`/user/earn_daily`, 'POST', {});
+  }
+
+  earnCard(): Promise<IUserBalanceResponse> {
+    return this.request('/user/earn_card', 'POST', {});
   }
 }
 

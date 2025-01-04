@@ -27,6 +27,7 @@ export const Title = ({ className }: ITitle) => {
           />
         </button>
         <h2 className={classNames(cls.title, {}, [])}>Реферальная система</h2>
+        <div></div>
       </div>
     </section>
   )

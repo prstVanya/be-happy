@@ -20,6 +20,7 @@ export interface IBuildingBlock {
   name: string;
   income: number;
   cost: number;
+  icon_url: string | '';
 }
 
 export interface IBuildingData {

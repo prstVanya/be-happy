@@ -9,7 +9,7 @@ import { BuyPopup } from '../BuyPopup';
 import { useDispatch, useSelector } from 'react-redux';
 import { userApi } from '@/Api/UserApi';
 import React, { useEffect, useState } from 'react';
-import { setUserBuildingsAction, setUserBalanceAction } from '@/store/Slice/userSlice';
+import { setUserBuildingsAction, setUserBalanceAction, setDailyRewardAction } from '@/store/Slice/userSlice';
 import { IBuilding, IBuildingData } from '@/types';
 import { InfoPopup } from '../InfoPopup';
 
@@ -23,6 +23,7 @@ export const City = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isInfoPopup, setIsInfoPopup] = useState(false);
   const [isTextInfoPopup, setIsTextInfoPopup] = useState('');
+  console.log(buildings);
 
   const fetchUserBuildings = async (): Promise<IBuildingData[]> => {
     try {
@@ -82,13 +83,13 @@ export const City = () => {
     try {
       const result = await userApi.earnDaily();
       if (result.user_id && result.balance) {
-        const updatedBalance = balance.balance + result.balance;
-
         dispatch(setUserBalanceAction({
           user_id: user.id,
-          balance: updatedBalance,
+          balance: result.balance,
           income: balance.income,
         }));
+
+        dispatch(setDailyRewardAction(result.balance));
         setIsTextInfoPopup('Награда собрана!');
         setIsInfoPopup(true);
 

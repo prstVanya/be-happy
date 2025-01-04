@@ -33,11 +33,11 @@ export const Business = ({ className, buildings, onBuyClick, userId }: IBusiness
                 <img 
                   className={classNames(cls.image, {}, [])}
                   alt='#'
-                  src={w.image}
+                  src={w.icon_url}
                 />
                 <div className={classNames(cls.info, {}, [])}>
                   <h3 className={classNames(cls.heading, {}, [])}>{w.name}</h3>
-                  <p className={classNames(cls.subtitle, {}, [])}>Доход в день:</p>
+                  <p className={classNames(cls.subtitle, {}, [])}>{`Доход${'\u00A0'}в${'\u00A0'}день:`}</p>
                   <div className={classNames(cls.income, {}, [])}>
                     <p className={classNames(cls.money)}>{`+${w.income}`}</p>
                     <img 
