@@ -25,6 +25,7 @@ const userSlice = createSlice({
       income: 0,
     } as IUserBalanceResponse,
     buildings: [],
+    referrals: [] as string[],
   },
   reducers: {
     setUserInfoAction(state, action) {
@@ -40,10 +41,19 @@ const userSlice = createSlice({
       state.buildings = action.payload;
       localStorage.setItem('userBuildings', JSON.stringify(state.buildings));
     },
+    setUserReferralAction(state, action) {
+      console.log('Данные для сохранения приглашенного пользователя:', action.payload);
+      if (!state.referrals.includes(action.payload)) {
+        state.referrals.push(action.payload);
+      }
+    },
   },
 });
 
 export const { 
-  setUserInfoAction, setUserBalanceAction, setUserBuildingsAction 
+  setUserInfoAction, 
+  setUserBalanceAction, 
+  setUserBuildingsAction,
+  setUserReferralAction,
 } = userSlice.actions;
 export default userSlice.reducer;

@@ -4,16 +4,17 @@ import cls from './ReferalLink.module.css';
 interface IReferalLink {
   className?: string;
   link: string;
+  refCount: number;
 }
 
-export const ReferalLink = ({ className, link }: IReferalLink) => {
+export const ReferalLink = ({ className, link, refCount, }: IReferalLink) => {
   return (
     <section className={classNames(cls.section, {}, [className || ''])}>
       <div className={classNames(cls.container, {}, [])}>
         <div className={classNames(cls.block, {}, [])}>
           <h2 className={classNames(cls.heading, {}, [])}>Ваша реферальная ссылка</h2>
           <p className={classNames(cls.heading, {}, [])}>{link}</p>
-          <p className={classNames(cls.heading, {}, [])}>1 реф бал</p>
+          <p className={classNames(cls.heading, {}, [])}>{refCount}</p>
         </div>
       </div>
     </section>
