@@ -20,6 +20,10 @@
   color: var(--text-color-premium);
 }
 
+.button.disabled {
+  opacity: .6;
+}
+
 .button.light {
   background-color: var(--text-color-light);
   color: var(--text-color-dark);

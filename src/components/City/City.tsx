@@ -170,6 +170,7 @@ export const City = () => {
           income={balance.income}
         />
         <FinanceLevel
+          isBuilding={userBuilding.length === 0}
           level={balance.level}
           onSubmit={earnDailyReward}
         />

@@ -12,9 +12,10 @@ interface IFinanceLevel {
   className?: string;
   onSubmit: () => void;
   level: number;
+  isBuilding: boolean;
 }
 
-export const FinanceLevel = ({ className, onSubmit, level }: IFinanceLevel) => {
+export const FinanceLevel = ({ className, onSubmit, level, isBuilding }: IFinanceLevel) => {
   let levelImage: string;
 
   switch(level) {
@@ -48,7 +49,10 @@ export const FinanceLevel = ({ className, onSubmit, level }: IFinanceLevel) => {
           alt='Город'
           src={levelImage}
         />
-        <EarnButton onClick={onSubmit} isEarn={false} />
+        <EarnButton
+          isBuilding={isBuilding}
+          onClick={onSubmit} isEarn={false} 
+        />
       </div>
     </section>
   );

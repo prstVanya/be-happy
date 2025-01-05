@@ -151,14 +151,14 @@ export const SliderData = ({ className, onOpen }: ISliderData) => {
                     src={MoneyIcon}
                   />
                 </div>
-                <button className={classNames(cls.time, {}, [])}>
+                <div className={classNames(cls.time, {}, [])}>
                   <p className={classNames(cls.sub, {}, [])}>Next Click</p>
                   {remainingTime > 0 ? (
                     <p className={classNames(cls.ready, {}, [])}>{formatTime(remainingTime)}</p>
                   ) : (
                     <p className={classNames(cls.ready, {}, [])}>ready</p>
                   )}
-                </button>
+                </div>
               </div>
               <img
                 className={classNames(cls.image, {}, [])}
@@ -178,10 +178,10 @@ export const SliderData = ({ className, onOpen }: ISliderData) => {
                     src={MoneyBlackIcon}
                   />
                 </div>
-                <button className={classNames(cls.time, {}, [cls.black])}>
+                <div className={classNames(cls.time, {}, [cls.black])}>
                   <p className={classNames(cls.sub, {}, [cls.black])}>Next Click</p>
                   <p className={classNames(cls.ready, {}, [cls.black])}>ready</p>
-                </button>
+                </div>
               </div>
               <img
                 className={classNames(cls.image, {}, [])}
