@@ -15,15 +15,15 @@ export const CityLevel = ({ className, income, level }: ICityLevelData) => {
         <div className={classNames(cls.mainInfo, {}, [])}>
           <div className={classNames(cls.mylevel, {}, [])}>
             <h2 className={classNames(cls.title, {}, [])}>Мой квартал</h2>
-            <p className={classNames(cls.lev, {}, [])}>{`Ур. ${level}`}</p>
+            <button className={classNames(cls.button, {}, [])}>
+              <img
+                className={classNames(cls.icon, {}, [cls.infoIcon])}
+                alt='#'
+                src={InfoIcon}
+              />
+            </button>
           </div>
-          <button className={classNames(cls.button, {}, [])}>
-            <img
-              className={classNames(cls.icon, {}, [cls.infoIcon])}
-              alt='#'
-              src={InfoIcon}
-            />
-          </button>
+          <p className={classNames(cls.lev, {}, [])}>{`Ур. ${level}`}</p>
         </div>
           <ul className={classNames(cls.bonus, {}, [])}>
             <li className={classNames(cls.item, {}, [])}>

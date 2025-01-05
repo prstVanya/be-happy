@@ -6,6 +6,7 @@ export interface IUserInfoData {
   balance: number;
   income: number;
   level: number;
+  referals: number;
 }
 
 export interface IUserDetails {
@@ -20,6 +21,7 @@ export interface IBuildingBlock {
   name: string;
   income: number;
   cost: number;
+  icon_url: string | '';
 }
 
 export interface IBuildingData {
@@ -64,9 +66,19 @@ export interface IUserBalance {
 
 export interface IBuilding {
   id: number;
-  image: string;
+  icon_url: string;
   name: string;
   income: number;
   cost: number;
   isPurchased: boolean; 
+}
+
+export interface IReferalsData {
+  user_id: number;
+  fristname: string;
+  referals: number;
+}
+
+export interface IReferalAddData {
+  referer_id: number;
 }

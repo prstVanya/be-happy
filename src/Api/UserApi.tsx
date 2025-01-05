@@ -4,7 +4,8 @@ import {
   IBuildingData, 
   IBuildingBlock, 
   IBuyBuildingResponse,
-  IUserBalanceResponse, 
+  IUserBalanceResponse,
+  IReferalsData, 
 } from "@/types";
 import WebApp from "@twa-dev/sdk";
 
@@ -30,6 +31,7 @@ export class UserApi extends Api {
       name: building.name,
       income: building.income,
       cost: building.cost,
+      icon_url: building.icon_url,
     });
   }
 
@@ -55,6 +57,18 @@ export class UserApi extends Api {
 
   earnDaily(): Promise<IUserBalanceResponse> {
     return this.request(`/user/earn_daily`, 'POST', {});
+  }
+
+  earnCard(): Promise<IUserBalanceResponse> {
+    return this.request('/user/earn_card', 'POST', {});
+  }
+
+  getReferals(): Promise<IReferalsData> {
+    return this.request('/user/get_referals', 'GET');
+  }
+
+  addReferal(referalId: number): Promise<IUserInfoData> {
+    return this.request(`/user/add_referal/${referalId}`, 'POST', {});
   }
 }
 

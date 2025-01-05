@@ -1,12 +1,12 @@
 import { classNames } from '@/utils/classNames/className';
 import cls from './MainInfo.module.css';
-import CoffeIcon from '@/assets/images/icons/business/coffe.svg';
 import MoneyIcon from '@/assets/images/icons/Subtract.svg';
 
 interface IMainInfoData {
   className?: string;
   building: {
     income: number;
+    icon_url: string;
   } | null;
 }
 
@@ -16,7 +16,7 @@ export const MainInfo = ({ className, building }: IMainInfoData) => {
       <img 
         className={classNames(cls.city, {}, [])}
         alt='#'
-        src={CoffeIcon}
+        src={building?.icon_url}
       />
       <div className={classNames(cls.info, {}, [])}>
         <div className={classNames(cls.money, {}, [])}>
