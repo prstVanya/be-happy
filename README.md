@@ -44,10 +44,8 @@ npm run lint:fix
 ```bash
 VITE v5.2.12  ready in 237 ms
 
-➜  Local:   https://localhost:5173/reactjs-template
-➜  Network: https://172.18.16.1:5173/reactjs-template
-➜  Network: https://172.19.32.1:5173/reactjs-template
-➜  Network: https://192.168.0.171:5173/reactjs-template
+➜  Local:   https://localhost:5173/be-happy/
+➜  Network: https://192.168.55.253:5173/be-happy/
 ➜  press h + enter to show help
 ```
 

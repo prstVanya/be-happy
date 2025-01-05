@@ -45,8 +45,8 @@ export const BonusPopup = ({ className, isOpen, onClose }: IBonusPopupData) => {
             </div>
           </div>
           <div className={classNames(cls.buttons, {}, [])}>
-            <ButtonSelect isLight={true} title='Приступить' />
-            <ButtonSelect isLight={false} title='Проверить' />
+            <ButtonSelect isDisabled={false} isSold={false} isLight={true} title='Приступить' />
+            <ButtonSelect isDisabled={false} isSold={false} isLight={false} title='Проверить' />
           </div>
         </div>
       </div>
