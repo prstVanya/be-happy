@@ -4,29 +4,31 @@ import cls from './CityLevel.module.css';
 
 interface ICityLevelData {
   className?: string;
+  income: number;
+  level: number;
 }
 
-export const CityLevel = ({ className }: ICityLevelData) => {
+export const CityLevel = ({ className, income, level }: ICityLevelData) => {
   return (
     <section className={classNames(cls.level, {}, [className || ''])}>
       <div className={classNames(cls.container, {}, [])}>
         <div className={classNames(cls.mainInfo, {}, [])}>
           <div className={classNames(cls.mylevel, {}, [])}>
             <h2 className={classNames(cls.title, {}, [])}>Мой квартал</h2>
-            <p className={classNames(cls.lev, {}, [])}>Ур. 0</p>
+            <button className={classNames(cls.button, {}, [])}>
+              <img
+                className={classNames(cls.icon, {}, [cls.infoIcon])}
+                alt='#'
+                src={InfoIcon}
+              />
+            </button>
           </div>
-          <button className={classNames(cls.button, {}, [])}>
-            <img
-              className={classNames(cls.icon, {}, [cls.infoIcon])}
-              alt='#'
-              src={InfoIcon}
-            />
-          </button>
+          <p className={classNames(cls.lev, {}, [])}>{`Ур. ${level}`}</p>
         </div>
           <ul className={classNames(cls.bonus, {}, [])}>
             <li className={classNames(cls.item, {}, [])}>
               <p className={classNames(cls.heading, {}, [])}>Доход в день:</p>
-              <h3 className={classNames(cls.subtitle, {}, [])}>+500</h3>
+              <h3 className={classNames(cls.subtitle, {}, [])}>{income}</h3>
             </li>
             <li className={classNames(cls.item, {}, [])}>
               <p className={classNames(cls.heading, {}, [])}>Бонус к клику:</p>

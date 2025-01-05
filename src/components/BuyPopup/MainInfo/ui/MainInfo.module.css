@@ -1,0 +1,50 @@
+.mainInfo {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.city {
+  width: 128px;
+  height: 128px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.info {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.money {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.income {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.subtitle {
+  font-size: 12px;
+  line-height: 15px;
+  font-family: var(--font-inter-regular);
+  color: var(--text-color-secondary);
+  margin: 0;
+}
+
+.moneyText {
+  font-size: 16px;
+  line-height: 19px;
+  font-family: var(--font-inter-regular);
+  color: var(--text-color-premium);
+  margin: 0;
+}

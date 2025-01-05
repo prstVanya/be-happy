@@ -6,7 +6,7 @@ import svgr from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/reactjs-template',
+  base: '/be-happy/',
   plugins: [
     // Allows using React dev server along with building a React application with Vite.
     // https://npmjs.com/package/@vitejs/plugin-react-swc
@@ -25,8 +25,8 @@ export default defineConfig({
   ],
   publicDir: './public',
   server: {
-    // Exposes your dev server and makes it accessible for the devices in the same network.
-    host: true,
+    host: '0.0.0.0', // Позволяет доступ к серверу из сети
+    port: 5173, // Порт по умолчанию
   },
 });
 
