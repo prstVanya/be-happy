@@ -1,63 +1,33 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { IUserBalanceResponse } from '@/types';
 
-function getUserInfo(){
-  let obj = {};
-
-  try {
-    const _userInfo = localStorage.getItem('userInfo')
-    if (_userInfo) {
-      obj = JSON.parse(_userInfo)
-    }
-  } catch (err) {
-    console.error('Error retrieving user info:', err instanceof Error ? err.message : err);
-  }
-  return obj
-}
-
-function getDailyReward() {
-  try {
-    const _dailyReward = localStorage.getItem('dailyReward');
-    if (_dailyReward) {
-      return JSON.parse(_dailyReward);
-    }
-    return 0;
-  } catch (err) {
-    console.error('Error retrieving dailyReward:', err instanceof Error ? err.message : err);
-    return 0;
-  }
-}
+const initialState = {
+  info: {},
+  balance: {
+    user_id: 0,
+    balance: 0,
+    income: 0,
+  } as IUserBalanceResponse,
+  buildings: [],
+  referrals: [] as string[],
+  timer: 0,
+  dailyReward: 0,
+};
 
 const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    info: getUserInfo(),
-    balance: {
-      user_id: 0,
-      balance: 0,
-      income: 0,
-    } as IUserBalanceResponse,
-    buildings: [],
-    referrals: [] as string[],
-    timer: 0,
-    dailyReward: getDailyReward(),
-  },
+  initialState,
   reducers: {
     setUserInfoAction(state, action) {
-      console.log('Данные для сохранения в Redux:', action.payload);
       state.info = { ...state.info, ...action.payload };
-      localStorage.setItem('userInfo', JSON.stringify(state.info));
     },
     setUserBalanceAction(state, action) {
-      console.log('Данные баланса для сохранения в Redux:', action.payload);
       state.balance = { ...state.balance, ...action.payload };
     },
     setUserBuildingsAction(state, action) {
       state.buildings = action.payload;
-      localStorage.setItem('userBuildings', JSON.stringify(state.buildings));
     },
     setUserReferralAction(state, action) {
-      console.log('Данные для сохранения приглашенного пользователя:', action.payload);
       if (!state.referrals.includes(action.payload)) {
         state.referrals.push(action.payload);
       }
@@ -66,16 +36,14 @@ const userSlice = createSlice({
       state.timer = action.payload;
     },
     setDailyRewardAction(state, action) {
-      console.log('Данные для сохранения dailyReward:', action.payload);
       state.dailyReward = action.payload;
-      localStorage.setItem('dailyReward', JSON.stringify(state.dailyReward));
-    }
+    },
   },
 });
 
-export const { 
-  setUserInfoAction, 
-  setUserBalanceAction, 
+export const {
+  setUserInfoAction,
+  setUserBalanceAction,
   setUserBuildingsAction,
   setUserReferralAction,
   setTimerAction,

@@ -36,43 +36,88 @@ export const City = () => {
   };
 
   const buyBuildingThunk = async (building: any) => {
+    setIsPopupOpen(false);
+    setSelectedBuilding(null);
     try {
-      const selectedBuilding = buildings.find((item: any) => item.id === building.id);
-      if (!selectedBuilding) {
-        console.error("Здание не найдено.");
-        return;
-      }
-      const buildingCost = Number(selectedBuilding.cost);
-      const buildingIncome = Number(selectedBuilding.income);
+        const selectedBuilding = buildings.find((item: any) => item.id === building.id);
+        if (!selectedBuilding) {
+            console.error("Здание не найдено.");
+            setIsTextInfoPopup('Здание не найдено.');
+            setIsInfoPopup(true);
+            setTimeout(() => {
+              setIsInfoPopup(false);
+              setIsTextInfoPopup('');
+            }, 4000);
+            return;
+        }
 
-      console.log(building.id);
-      console.log(buildingCost, buildingIncome);
+        const buildingCost = Number(selectedBuilding.cost);
+        const buildingIncome = Number(selectedBuilding.income);
 
-      if (isNaN(buildingCost) || isNaN(buildingIncome)) {
-        console.error('Ошибка: неверные значения для стоимости или дохода здания');
-        return;
-      }
-      const result = await userApi.buyBuilding(building.id);
-      if (result.user_id) {
-        const updatedBalance = balance.balance - buildingCost;
-        const updatedIncome = balance.income + buildingIncome * balance.level * 1.1;
-        const level = balance.level + 1;
-        dispatch(setUserBalanceAction({
-          user_id: user.id,
-          balance: updatedBalance,
-          income: updatedIncome,
-          level: level,
-        }));
-        const updatedBuildings = await fetchUserBuildings();
-        setUserBuilding(updatedBuildings); 
-        dispatch(setUserBuildingsAction(updatedBuildings));
-      } else {
-        console.log('');
-      }
+        console.log(building.id);
+        console.log(buildingCost, buildingIncome);
+
+        if (isNaN(buildingCost) || isNaN(buildingIncome)) {
+            setIsTextInfoPopup('Ошибка: underfind');
+            setIsInfoPopup(true);
+            setTimeout(() => {
+                setIsInfoPopup(false);
+                setIsTextInfoPopup('');
+            }, 4000);
+            return;
+        }
+
+        if (balance.balance < buildingCost) {
+            setIsTextInfoPopup('Недостаточно средств для покупки здания.');
+            setIsInfoPopup(true);
+            setTimeout(() => {
+                setIsInfoPopup(false);
+                setIsTextInfoPopup('');
+            }, 4000);
+            return;
+        }
+
+        const result = await userApi.buyBuilding(building.id);
+        if (result.user_id) {
+            const updatedBalance = balance.balance - buildingCost;
+            const updatedIncome = balance.income + buildingIncome * balance.level * 1.1;
+            const level = balance.level + 1;
+
+            dispatch(setUserBalanceAction({
+                user_id: user.id,
+                balance: updatedBalance,
+                income: updatedIncome,
+                level: level,
+            }));
+
+            const updatedBuildings = await fetchUserBuildings();
+            setUserBuilding(updatedBuildings);
+            dispatch(setUserBuildingsAction(updatedBuildings));
+
+            setIsTextInfoPopup('Покупка здания прошла успешно!');
+            setIsInfoPopup(true);
+            setTimeout(() => {
+              setIsInfoPopup(false);
+              setIsTextInfoPopup('');
+            }, 4000);
+        } else {
+            setIsTextInfoPopup('Покупка не удалась.');
+            setIsInfoPopup(true);
+            setTimeout(() => {
+              setIsInfoPopup(false);
+              setIsTextInfoPopup('');
+            }, 4000);
+        }
     } catch (error) {
-      console.error("Ошибка при покупке здания", error);
+        console.error("Ошибка при покупке здания", error);
+        setIsTextInfoPopup('Ошибка при покупке здания.');
+        setIsInfoPopup(true);
+        setTimeout(() => {
+          setIsInfoPopup(false);
+          setIsTextInfoPopup('');
+        }, 4000);
     }
-  };
+};
 
   const loadDataBuildings = async () => {
     const building = await fetchUserBuildings();

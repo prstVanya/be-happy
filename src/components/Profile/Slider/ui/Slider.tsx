@@ -35,12 +35,7 @@ export const SliderData = ({ className, onOpen }: ISliderData) => {
   const isFirstSlide = currentSlide === 0;
   const sliderRef = useRef<Slider | null>(null);
 
-  const getStoredTime = () => {
-    const storedTime = localStorage.getItem('remainingTime');
-    return storedTime ? parseInt(storedTime, 10) : timer;
-  };
-
-  const [remainingTime, setRemainingTime] = useState<number>(getStoredTime());
+  const [remainingTime, setRemainingTime] = useState<number>(timer);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
@@ -48,25 +43,18 @@ export const SliderData = ({ className, onOpen }: ISliderData) => {
       interval = setInterval(() => {
         setRemainingTime((prevTime: number) => {
           const newTime = prevTime - 1;
-          localStorage.setItem('remainingTime', newTime.toString());
+          dispatch(setTimerAction(newTime));
           return newTime;
         });
       }, 1000);
-    } else {
-      localStorage.removeItem('remainingTime');
-      if (interval) {
-        clearInterval(interval);
-      }
+    } else if (interval) {
+      clearInterval(interval);
     }
     return () => {
       if (interval) {
         clearInterval(interval);
       }
     };
-  }, [remainingTime]);
-
-  useEffect(() => {
-    dispatch(setTimerAction(remainingTime));
   }, [remainingTime, dispatch]);
 
   const settings = {
