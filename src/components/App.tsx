@@ -7,12 +7,12 @@ import { classNames } from '@/utils/classNames/className';
 import { AppRoot } from '@telegram-apps/telegram-ui';
 import { HashRouter } from 'react-router-dom';
 import { AppRouter } from './AppRouter';
-import { setUserInfoAction, setUserBalanceAction } from '@/store/Slice/userSlice';
+import { setUserInfoAction, setUserBalanceAction, setUserReferralAction } from '@/store/Slice/userSlice';
 import { addBuilding, setBuildings } from '@/store/Slice/citySlice';
 import '@/vendor/index.css';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState, useRef } from 'react';
-import { IBuildingBlock, IUserInfoData, IUserBalanceResponse } from '@/types';
+import { IBuildingBlock, IUserInfoData, IUserBalanceResponse, IReferalsData } from '@/types';
 import { userApi } from '@/Api/UserApi';
 import { cityAdd } from './City/model/cityAdd';
 import WebApp from '@twa-dev/sdk';
@@ -121,6 +121,17 @@ export function App() {
     }
   };
 
+  const fetchUserReferrals = async () => {
+    try {
+      const response = await userApi.getReferals();
+      const referralsData: IReferalsData = response;
+      dispatch(setUserReferralAction(referralsData));
+      console.log("Fetched referrals:", referralsData);
+    } catch (error) {
+      console.error("Error fetching user referrals:", error);
+    }
+  };
+
   type EffectCallback = () => void;
   const useEffectOnce = (callback: EffectCallback) => {
     const hasExecuted = useRef(false);
@@ -140,6 +151,7 @@ export function App() {
         await createBuilding(user);
         await fetchUserBalance(user);
         await fetchAllBuildings();
+        await fetchUserReferrals();
       }
     };
 

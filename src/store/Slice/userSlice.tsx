@@ -9,7 +9,7 @@ const initialState = {
     income: 0,
   } as IUserBalanceResponse,
   buildings: [],
-  referrals: [] as string[],
+  referrals: [],
   timer: 0,
   dailyReward: 0,
 };
@@ -28,9 +28,7 @@ const userSlice = createSlice({
       state.buildings = action.payload;
     },
     setUserReferralAction(state, action) {
-      if (!state.referrals.includes(action.payload)) {
-        state.referrals.push(action.payload);
-      }
+      state.referrals = action.payload;
     },
     setTimerAction(state, action) {
       state.timer = action.payload;

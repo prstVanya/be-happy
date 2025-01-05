@@ -12,10 +12,10 @@ interface IBuyPopupData {
   onClose: (evt: React.MouseEvent) => void;
   building: {
     id: number;
-    image: string;
     name: string;
     income: number;
     cost: number;
+    icon_url: string;
   } | null;
   balance: number;
   handleBuy: (building: { id: number }) => void;

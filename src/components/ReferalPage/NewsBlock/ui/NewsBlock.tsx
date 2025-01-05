@@ -5,9 +5,10 @@ import MoneyImage from '@/assets/images/backBlock.png';
 
 interface INewsBlock {
   className?: string;
+  referals: number;
 }
 
-export const NewsBlock = ({ className }: INewsBlock) => {
+export const NewsBlock = ({ className, referals }: INewsBlock) => {
   return (
     <section className={classNames(cls.section, {}, [className || ''])}>
       <div className={classNames(cls.container, {}, [])}>
@@ -35,9 +36,9 @@ export const NewsBlock = ({ className }: INewsBlock) => {
         </div>
         <ul className={classNames(cls.list, {}, [])}>
           <li className={classNames(cls.item, {}, [])}>
-            <h3 className={classNames(cls.head, {}, [])}>5%</h3>
+            <h3 className={classNames(cls.head, {}, [])}>{referals}</h3>
             <p className={classNames(cls.text, {}, [])}>
-              от дохода вашего реферала
+              Ваши рефералы
             </p>
           </li>
           <li className={classNames(cls.item, {}, [])}>

@@ -66,7 +66,7 @@ export interface IUserBalance {
 
 export interface IBuilding {
   id: number;
-  image: string;
+  icon_url: string;
   name: string;
   income: number;
   cost: number;

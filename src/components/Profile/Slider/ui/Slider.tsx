@@ -168,7 +168,6 @@ export const SliderData = ({ className, onOpen }: ISliderData) => {
                 </div>
                 <div className={classNames(cls.time, {}, [cls.black])}>
                   <p className={classNames(cls.sub, {}, [cls.black])}>Next Click</p>
-                  <p className={classNames(cls.ready, {}, [cls.black])}>ready</p>
                 </div>
               </div>
               <img
