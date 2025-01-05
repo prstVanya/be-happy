@@ -4,7 +4,8 @@ import {
   IBuildingData, 
   IBuildingBlock, 
   IBuyBuildingResponse,
-  IUserBalanceResponse, 
+  IUserBalanceResponse,
+  IReferalsData, 
 } from "@/types";
 import WebApp from "@twa-dev/sdk";
 
@@ -60,6 +61,14 @@ export class UserApi extends Api {
 
   earnCard(): Promise<IUserBalanceResponse> {
     return this.request('/user/earn_card', 'POST', {});
+  }
+
+  getReferals(): Promise<IReferalsData> {
+    return this.request('/user/get_referals', 'GET');
+  }
+
+  addReferal(referalId: number): Promise<IUserInfoData> {
+    return this.request(`/user/add_referal/${referalId}`, 'POST', {});
   }
 }
 

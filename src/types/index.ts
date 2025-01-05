@@ -6,6 +6,7 @@ export interface IUserInfoData {
   balance: number;
   income: number;
   level: number;
+  referals: number;
 }
 
 export interface IUserDetails {
@@ -70,4 +71,14 @@ export interface IBuilding {
   income: number;
   cost: number;
   isPurchased: boolean; 
+}
+
+export interface IReferalsData {
+  user_id: number;
+  fristname: string;
+  referals: number;
+}
+
+export interface IReferalAddData {
+  referer_id: number;
 }
