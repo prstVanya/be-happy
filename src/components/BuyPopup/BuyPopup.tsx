@@ -17,7 +17,9 @@ interface IBuyPopupData {
     cost: number;
     icon_url: string;
   } | null;
-  balance: number;
+  balance: {
+    balance: number;
+  };
   handleBuy: (building: { id: number }) => void;
 }
 

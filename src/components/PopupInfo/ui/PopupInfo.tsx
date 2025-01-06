@@ -20,7 +20,13 @@ export const PopupInfo = ({ className, isOpen, onClose }: IBonusPopupData) => {
             С клика ваших рефералов по карте вы получаете 5% от их дохода.
           </p>
         </div>
-        <ButtonSelect onClick={onClose} isLight={false} title='Ok' />
+        <ButtonSelect 
+          isSold={false} 
+          isDisabled={false} 
+          onClick={onClose} 
+          isLight={false} 
+          title='Ok' 
+        />
       </div>
     </div>
   )

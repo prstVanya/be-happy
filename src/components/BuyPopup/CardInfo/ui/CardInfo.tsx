@@ -5,7 +5,9 @@ import MoneyIcon from '@/assets/images/icons/Subtract.svg';
 
 interface ICardInfo {
   className?: string;
-  balance: number; 
+  balance: {
+    balance: number;
+  };
 }
 
 export const CardInfo = ({ className, balance }: ICardInfo) => {

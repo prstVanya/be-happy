@@ -15,7 +15,12 @@ export const PromoCodeSection = () => {
               placeholder='Промокод...'
             />
           </label>
-          <ButtonSelect isLight={false} title='Применить' />
+          <ButtonSelect
+            isLight={false}
+            title='Применить'
+            isDisabled={false}
+            isSold={false}   
+          />
         </form>
       </div>
     </section>
