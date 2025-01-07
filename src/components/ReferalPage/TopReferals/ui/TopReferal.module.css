@@ -120,3 +120,12 @@
   object-fit: cover;
   object-position: center;
 }
+
+.noReferrals {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 0;
+}

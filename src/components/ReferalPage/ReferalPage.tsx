@@ -10,7 +10,7 @@ import { TopReferal } from './TopReferals';
 export const ReferalPage = () => {
   const user = useSelector((state: any) => state.user.info);
   const referrals = useSelector((state: any) => state.user.referrals);
-  const botUsername = 'FatherHappyTestBot';
+  const botUsername = 'copy_be_happy_bot';
 
   const url = `https://t.me/${botUsername}?start=${user.id}`;
 

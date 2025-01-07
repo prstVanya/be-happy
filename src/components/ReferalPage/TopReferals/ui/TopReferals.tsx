@@ -48,7 +48,7 @@ export const TopReferal = ({ className }: ITopReferal) => {
             ))
           ) : (
             <li className={classNames(cls.noReferrals, {}, [])}>
-              Нет доступных рефералов.
+              <p className={classNames(cls.referalcCount)}>Нет доступных рефералов.</p>
             </li>
           )}
         </ul>
