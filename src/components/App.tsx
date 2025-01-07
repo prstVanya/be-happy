@@ -109,7 +109,6 @@ export function App() {
     }
   };
 
-  // Fetch all available buildings.
   const fetchAllBuildings = async () => {
     if (buildingsCache.length > 0) return;
 
@@ -142,7 +141,6 @@ export function App() {
     }, [callback]);
   };
 
-  // Use effect to initialize user and data.
   useEffectOnce(() => {
     const initUser = async () => {
       const user = await checkUser();
